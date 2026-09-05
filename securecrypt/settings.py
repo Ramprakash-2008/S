@@ -140,7 +140,8 @@ TEMPLATES = [
 # ============================================================
 # DATABASE
 # ============================================================
-
+print("DEBUG =", DEBUG)
+print("DB_HOST =", os.environ.get("DB_HOST"))
 if os.environ.get("DB_HOST"):
 
     # Production PostgreSQL
