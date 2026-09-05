@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Security Logs - SecureCrypt</title>
+
+
+    <style>
+
+        /* ========================================
+           GLOBAL
+        ======================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            background: #08111f;
+
+            color: #e8eef7;
+
+            min-height: 100vh;
+        }
+
+
+        /* ========================================
+           APP
+        ======================================== */
+
+        .app {
+
+            display: flex;
+
+            min-height: 100vh;
+        }
+
+
+        /* ========================================
+           SIDEBAR
+        ======================================== */
+
+        .sidebar {
+
+            width: 250px;
+
+            flex-shrink: 0;
+
+            background: #0d1929;
+
+            border-right:
+                1px solid
+                #1d3148;
+
+            padding:
+                25px 15px;
+
+            min-height: 100vh;
+        }
+
+
+        /* ========================================
+           LOGO
+        ======================================== */
+        .no-logs {
+    text-align: center;
+    padding: 50px 20px;
+    color: #94a3b8;
+}
+
+.no-logs-icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.no-logs h3 {
+    color: #e2e8f0;
+    margin-bottom: 8px;
+}
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding:
+                10px
+                12px
+                30px;
+
+            border-bottom:
+                1px solid
+                #1d3148;
+
+            margin-bottom: 25px;
+        }
+
+        .logo-icon {
+
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #1677ff;
+
+            border-radius: 10px;
+
+            font-size: 21px;
+        }
+
+        .logo h2 {
+
+            font-size: 21px;
+
+            color: white;
+        }
+
+        .logo span {
+
+            color: #5ea1ff;
+        }
+
+
+        /* ========================================
+           NAVIGATION
+        ======================================== */
+
+        .nav a {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding:
+                13px
+                15px;
+
+            margin-bottom: 8px;
+
+            text-decoration: none;
+
+            color: #94a9c2;
+
+            border-radius: 9px;
+
+            transition: 0.25s;
+        }
+
+        .nav a:hover {
+
+            background: #142740;
+
+            color: white;
+        }
+
+        .nav a.active {
+
+            background: #1677ff;
+
+            color: white;
+        }
+
+        .nav-icon {
+
+            width: 22px;
+
+            text-align: center;
+
+            font-size: 17px;
+        }
+
+
+        /* ========================================
+           MAIN
+        ======================================== */
+
+        .main {
+
+            flex: 1;
+
+            min-width: 0;
+
+            padding:
+                30px 40px;
+        }
+
+
+        /* ========================================
+           PAGE HEADER
+        ======================================== */
+
+        .page-header {
+
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+
+            color: white;
+
+            font-size: 28px;
+
+            margin-bottom: 7px;
+        }
+
+        .page-header p {
+
+            color: #8295ad;
+        }
+
+
+        /* ========================================
+           SECURITY STATUS
+        ======================================== */
+
+        .security-banner {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0d3158,
+                    #10233b
+                );
+
+            border:
+                1px solid
+                #1c5fa8;
+
+            border-radius: 15px;
+
+            padding: 22px 25px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+        .security-banner h2 {
+
+            color: white;
+
+            font-size: 19px;
+
+            margin-bottom: 7px;
+        }
+
+        .security-banner p {
+
+            color: #9bb9dc;
+
+            font-size: 14px;
+        }
+
+        .secure-badge {
+
+            padding:
+                9px
+                16px;
+
+            background:
+                rgba(
+                    22,
+                    119,
+                    255,
+                    0.18
+                );
+
+            color: #65a7ff;
+
+            border:
+                1px solid
+                #287fe7;
+
+            border-radius: 30px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+        }
+
+
+        /* ========================================
+           LOG CARD
+        ======================================== */
+
+        .logs-card {
+
+            background: #0d1929;
+
+            border:
+                1px solid
+                #1d3148;
+
+            border-radius: 15px;
+
+            overflow: hidden;
+        }
+
+
+        /* ========================================
+           LOG HEADER
+        ======================================== */
+
+        .logs-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 22px 25px;
+
+            border-bottom:
+                1px solid
+                #1d3148;
+        }
+
+        .logs-header h2 {
+
+            color: white;
+
+            font-size: 19px;
+        }
+
+        .logs-header p {
+
+            color: #71849b;
+
+            font-size: 13px;
+
+            margin-top: 5px;
+        }
+
+
+        /* ========================================
+           FILTER
+        ======================================== */
+
+        .filter {
+
+            background: #08111f;
+
+            color: #94a9c2;
+
+            border:
+                1px solid
+                #2b4562;
+
+            border-radius: 8px;
+
+            padding:
+                9px
+                12px;
+
+            outline: none;
+
+            cursor: pointer;
+        }
+
+        .filter:focus {
+
+            border-color: #1677ff;
+        }
+
+
+        /* ========================================
+           LOG ITEM
+        ======================================== */
+
+        .log-item {
+
+            display: grid;
+
+            grid-template-columns:
+                50px
+                1fr
+                auto;
+
+            gap: 15px;
+
+            align-items: center;
+
+            padding:
+                20px 25px;
+
+            border-bottom:
+                1px solid
+                #172a40;
+
+            transition: 0.25s;
+        }
+
+        .log-item:last-child {
+
+            border-bottom: none;
+        }
+
+        .log-item:hover {
+
+            background: #0f2033;
+        }
+
+
+        /* ========================================
+           LOG ICON
+        ======================================== */
+
+        .log-icon {
+
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #112b4c;
+
+            border-radius: 10px;
+
+            font-size: 19px;
+        }
+
+
+        /* ========================================
+           LOG DETAILS
+        ======================================== */
+
+        .log-details h3 {
+
+            color: #e8eef7;
+
+            font-size: 15px;
+
+            margin-bottom: 5px;
+        }
+
+        .log-details p {
+
+            color: #71849b;
+
+            font-size: 13px;
+        }
+
+
+        /* ========================================
+           LOG TIME
+        ======================================== */
+
+        .log-time {
+
+            text-align: right;
+
+            color: #71849b;
+
+            font-size: 12px;
+        }
+
+
+        /* ========================================
+           STATUS
+        ======================================== */
+
+        .status {
+
+            display: inline-block;
+
+            margin-top: 7px;
+
+            padding:
+                4px
+                9px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+        .status.success {
+
+            background: #123326;
+
+            color: #8ce7b0;
+        }
+
+        .status.warning {
+
+            background: #3a2d0c;
+
+            color: #f9d875;
+        }
+
+        .status.failed {
+
+            background: #3b171a;
+
+            color: #ff9b9b;
+        }
+
+
+        /* ========================================
+           EMPTY LOGS
+        ======================================== */
+
+        .empty {
+
+            padding: 60px 20px;
+
+            text-align: center;
+
+            color: #71849b;
+        }
+
+        .empty-icon {
+
+            font-size: 40px;
+
+            margin-bottom: 12px;
+        }
+
+        .empty h3 {
+
+            color: #c7d4e3;
+
+            margin-bottom: 7px;
+        }
+
+
+        /* ========================================
+           RESPONSIVE
+        ======================================== */
+
+        @media (max-width: 1000px) {
+
+            .main {
+
+                padding: 30px;
+            }
+        }
+
+
+        @media (max-width: 750px) {
+
+            .sidebar {
+
+                width: 75px;
+
+                padding:
+                    25px 10px;
+            }
+
+            .sidebar h2,
+            .nav span {
+
+                display: none;
+            }
+
+            .logo {
+
+                justify-content: center;
+
+                padding-left: 0;
+
+                padding-right: 0;
+            }
+
+            .nav a {
+
+                justify-content: center;
+
+                padding:
+                    13px 8px;
+            }
+
+            .main {
+
+                padding:
+                    25px 18px;
+            }
+
+            .page-header h1 {
+
+                font-size: 23px;
+            }
+
+            .security-banner {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 15px;
+            }
+
+            .logs-header {
+
+                align-items: flex-start;
+
+                gap: 15px;
+
+                flex-direction: column;
+            }
+
+            .log-item {
+
+                grid-template-columns:
+                    45px
+                    1fr;
+            }
+
+            .log-time {
+
+                grid-column: 2;
+
+                text-align: left;
+            }
+        }
+
+
+        @media (max-width: 500px) {
+
+            .sidebar {
+
+                width: 65px;
+            }
+
+            .main {
+
+                padding:
+                    20px 14px;
+            }
+
+            .logs-card {
+
+                border-radius: 12px;
+            }
+
+            .log-item {
+
+                padding:
+                    18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <!-- ========================================
+         SIDEBAR
+    ======================================== -->
+
+    <aside class="sidebar">
+
+
+        <!-- LOGO -->
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                🔐
+            </div>
+
+            <h2>
+                Secure<span>Crypt</span>
+            </h2>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="nav">
+
+
+            <a href="{% url 'dashboard' %}">
+
+                <span class="nav-icon">
+                    🏠
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'encrypt' %}">
+
+                <span class="nav-icon">
+                    🔒
+                </span>
+
+                <span>
+                    Encrypt File
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'decrypt' %}">
+
+                <span class="nav-icon">
+                    🔓
+                </span>
+
+                <span>
+                    Decrypt File
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'my_files' %}">
+
+                <span class="nav-icon">
+                    📁
+                </span>
+
+                <span>
+                    My Files
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'notifications' %}">
+
+                <span class="nav-icon">
+                    🔔
+                </span>
+
+                <span>
+                    Notifications
+                </span>
+
+            </a>
+
+
+            <!-- SECURITY LOGS -->
+
+            <a
+                href="{% url 'security_logs' %}"
+                class="active"
+            >
+
+                <span class="nav-icon">
+                    🛡️
+                </span>
+
+                <span>
+                    Security Logs
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'profile' %}">
+
+                <span class="nav-icon">
+                    👤
+                </span>
+
+                <span>
+                    Profile
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'settings' %}">
+
+                <span class="nav-icon">
+                    ⚙️
+                </span>
+
+                <span>
+                    Settings
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'logout' %}">
+
+                <span class="nav-icon">
+                    🚪
+                </span>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+
+        </nav>
+
+    </aside>
+
+
+
+    <!-- ========================================
+         MAIN
+    ======================================== -->
+
+    <main class="main">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header">
+
+            <h1>
+                Security Logs
+            </h1>
+
+            <p>
+                Monitor security-related activity on your SecureCrypt account.
+            </p>
+
+        </div>
+
+
+
+        <!-- ====================================
+             SECURITY STATUS
+        ==================================== -->
+
+        <section class="security-banner">
+
+            <div>
+
+                <h2>
+                    🛡️ Account Security
+                </h2>
+
+                <p>
+                    Review recent activity to keep your account secure.
+                </p>
+
+            </div>
+
+            <div class="secure-badge">
+                ● Security Active
+            </div>
+
+        </section>
+
+
+
+        <!-- ====================================
+             LOGS
+        ==================================== -->
+
+        <section class="logs-card">
+
+    <!-- LOG HEADER -->
+
+    <div class="logs-header">
+
+        <div>
+
+            <h2>
+                Recent Security Activity
+            </h2>
+
+            <p>
+                Your latest account and file security events.
+            </p>
+
+        </div>
+
+
+        <!-- Filter UI for now -->
+
+        <select class="filter">
+
+            <option>
+                All Events
+            </option>
+
+            <option>
+                Login
+            </option>
+
+            <option>
+                Encryption
+            </option>
+
+            <option>
+                Decryption
+            </option>
+
+            <option>
+                Password
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- =================================
+         REAL SECURITY LOG DATA
+    ================================== -->
+
+    {% for log in logs %}
+
+        <div class="log-item">
+
+
+            <!-- ICON -->
+
+            <div class="log-icon">
+
+                {% if log.event_type == "SUCCESSFUL_LOGIN" %}
+
+                    🔑
+
+                {% elif log.event_type == "FAILED_LOGIN" %}
+
+                    ⚠️
+
+                {% elif log.event_type == "SUSPICIOUS_ACTIVITY" %}
+
+                    🚨
+
+                {% elif log.event_type == "FILE_ENCRYPTED" %}
+
+                    🔒
+
+                {% elif log.event_type == "FILE_DECRYPTED" %}
+
+                    🔓
+
+                {% elif log.event_type == "PASSWORD_CHANGED" %}
+
+                    🔐
+
+                {% elif log.event_type == "PASSWORD_RESET" %}
+
+                    🔑
+
+                {% elif log.event_type == "ACCOUNT_LOCKED" %}
+
+                    🔒
+
+                {% elif log.event_type == "ACCOUNT_UNLOCKED" %}
+
+                    🔓
+
+                {% else %}
+
+                    🛡️
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- DETAILS -->
+
+            <div class="log-details">
+
+                <h3>
+
+                    {{ log.event_type|title }}
+
+                </h3>
+
+
+                <p>
+
+                    {{ log.description }}
+
+                </p>
+
+
+                <!-- STATUS -->
+
+                {% if log.event_type == "FAILED_LOGIN" or log.event_type == "SUSPICIOUS_ACTIVITY" or log.event_type == "ACCOUNT_LOCKED" %}
+
+                    <span class="status warning">
+                        Security Warning
+                    </span>
+
+                {% else %}
+
+                    <span class="status success">
+                        Successful
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- TIME -->
+
+            <div class="log-time">
+
+                {{ log.created_at|timesince }} ago
+
+            </div>
+
+
+        </div>
+
+    {% empty %}
+
+
+        <!-- NO LOGS -->
+
+        <div class="no-logs">
+
+            <div class="no-logs-icon">
+                🛡️
+            </div>
+
+            <h3>
+                No Security Activity Yet
+            </h3>
+
+            <p>
+                Your account security events will appear here.
+            </p>
+
+        </div>
+
+
+    {% endfor %}
+
+
+</section>

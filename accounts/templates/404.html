@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Page Not Found | SecureCrypt</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-family: Arial, sans-serif;
+
+            background: #f4f6f8;
+            color: #1e293b;
+        }
+
+        .error-card {
+            width: 90%;
+            max-width: 500px;
+
+            background: white;
+
+            padding: 45px 35px;
+
+            text-align: center;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, 0.10);
+        }
+
+        .icon {
+            font-size: 65px;
+            margin-bottom: 15px;
+        }
+
+        .error-code {
+            font-size: 64px;
+            font-weight: bold;
+            color: #2563eb;
+
+            margin-bottom: 5px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            display: inline-block;
+
+            padding: 11px 20px;
+
+            background: #2563eb;
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        .home-btn {
+            display: inline-block;
+
+            margin-left: 8px;
+
+            padding: 11px 20px;
+
+            background: #e2e8f0;
+            color: #334155;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-weight: 600;
+        }
+
+        .home-btn:hover {
+            background: #cbd5e1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="error-card">
+
+        <div class="icon">
+            🔐
+        </div>
+
+        <div class="error-code">
+            404
+        </div>
+
+        <h1>Page Not Found</h1>
+
+        <p>
+            The page you're looking for doesn't exist
+            or may have been moved.
+        </p>
+
+        <a href="javascript:history.back()" class="back-btn">
+            ← Go Back
+        </a>
+
+        <a href="{% url 'dashboard' %}" class="home-btn">
+            Dashboard
+        </a>
+
+    </div>
+
+</body>
+</html>

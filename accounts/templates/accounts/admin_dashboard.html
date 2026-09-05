@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard - SecureCrypt</title>
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f9;
+    color: #111827;
+}
+
+
+/* ========================================
+   NAVBAR
+======================================== */
+
+.navbar {
+    min-height: 70px;
+
+    background: #1e293b;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 42px;
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    box-shadow:
+        0 3px 12px
+        rgba(15, 23, 42, 0.15);
+}
+
+
+/* BRAND */
+
+.brand {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.brand-icon {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #2563eb;
+
+    border-radius: 10px;
+
+    font-size: 20px;
+
+    box-shadow:
+        0 4px 10px
+        rgba(37, 99, 235, 0.25);
+}
+
+
+/* NAV RIGHT */
+
+.nav-right {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+}
+
+
+/* ADMIN INFO */
+
+.admin-info {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 7px 13px;
+
+    background: rgba(255,255,255,0.08);
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    border-radius: 10px;
+}
+
+.admin-avatar {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #2563eb;
+
+    border-radius: 50%;
+
+    font-size: 15px;
+}
+
+.admin-text {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.admin-label {
+    display: block;
+
+    color: #94a3b8;
+
+    font-size: 11px;
+
+    margin-bottom: 2px;
+}
+
+
+/* LOGOUT */
+
+.logout {
+    background: #ef4444;
+
+    color: white;
+
+    padding: 10px 17px;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.logout:hover {
+    background: #dc2626;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 12px
+        rgba(239, 68, 68, 0.25);
+}
+
+
+/* ========================================
+   MAIN CONTAINER
+======================================== */
+
+.container {
+    width: 100%;
+    max-width: 1250px;
+
+    margin: 0 auto;
+
+    padding: 38px 25px 55px;
+}
+
+
+/* ========================================
+   WELCOME HEADER
+======================================== */
+
+.welcome {
+    margin-bottom: 28px;
+}
+
+.welcome h1 {
+    margin: 0;
+
+    font-size: 31px;
+
+    color: #1e293b;
+}
+
+.welcome p {
+    margin: 8px 0 0;
+
+    color: #64748b;
+
+    font-size: 15px;
+
+    line-height: 1.5;
+}
+
+
+/* ========================================
+   STATISTICS
+======================================== */
+
+.stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 18px;
+
+    margin-bottom: 32px;
+}
+
+.stat-card {
+    background: white;
+
+    padding: 23px;
+
+    border-radius: 14px;
+
+    border: 1px solid #e2e8f0;
+
+    box-shadow:
+        0 4px 14px
+        rgba(15, 23, 42, 0.05);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 10px 25px
+        rgba(15, 23, 42, 0.09);
+}
+
+.stat-top {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stat-icon {
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    font-size: 20px;
+}
+
+.blue {
+    background: #dbeafe;
+}
+
+.green {
+    background: #dcfce7;
+}
+
+.yellow {
+    background: #fef3c7;
+}
+
+.purple {
+    background: #ede9fe;
+}
+
+.stat-title {
+    margin-top: 18px;
+
+    color: #64748b;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+.stat-number {
+    margin-top: 5px;
+
+    font-size: 30px;
+
+    font-weight: 700;
+
+    color: #1e293b;
+}
+
+
+/* ========================================
+   SECTION HEADER
+======================================== */
+
+.section-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 16px;
+}
+
+.section-header h2 {
+    margin: 0;
+
+    color: #1e293b;
+
+    font-size: 20px;
+}
+
+.section-header p {
+    margin: 5px 0 0;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* ========================================
+   RECENT DATA GRID
+======================================== */
+
+.grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 22px;
+
+    margin-bottom: 32px;
+}
+
+
+/* ========================================
+   GENERAL CARD
+======================================== */
+
+.card {
+    background: white;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 14px;
+
+    padding: 23px;
+
+    box-shadow:
+        0 4px 14px
+        rgba(15, 23, 42, 0.05);
+
+    transition:
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.card:hover {
+    box-shadow:
+        0 8px 22px
+        rgba(15, 23, 42, 0.08);
+}
+
+
+/* CARD TITLE */
+
+.card-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    margin-bottom: 18px;
+}
+
+.card-title-icon {
+    width: 39px;
+    height: 39px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eff6ff;
+
+    border-radius: 10px;
+
+    font-size: 18px;
+}
+
+.card-title h2 {
+    margin: 0;
+
+    color: #1e293b;
+
+    font-size: 17px;
+}
+
+
+/* ========================================
+   TABLE
+======================================== */
+
+.table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+th {
+    text-align: left;
+
+    padding: 12px;
+
+    background: #f8fafc;
+
+    color: #64748b;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+td {
+    padding: 13px 12px;
+
+    border-bottom:
+        1px solid #f1f5f9;
+
+    color: #334155;
+
+    font-size: 13px;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover td {
+    background: #f8fafc;
+}
+
+
+/* ========================================
+   STATUS BADGES
+======================================== */
+
+.status {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.approved {
+    background: #dcfce7;
+
+    color: #166534;
+}
+
+.pending {
+    background: #fef3c7;
+
+    color: #92400e;
+}
+
+.rejected {
+    background: #fee2e2;
+
+    color: #991b1b;
+}
+
+
+/* ========================================
+   EMPTY STATE
+======================================== */
+
+.empty {
+    text-align: center;
+
+    padding: 32px 15px;
+
+    color: #94a3b8;
+
+    font-size: 13px;
+}
+
+
+/* ========================================
+   ADMIN CONTROLS
+======================================== */
+
+.admin-controls {
+    background: white;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 14px;
+
+    padding: 26px;
+
+    box-shadow:
+        0 4px 14px
+        rgba(15, 23, 42, 0.05);
+}
+
+.controls-header {
+    margin-bottom: 21px;
+}
+
+.controls-header h2 {
+    margin: 0;
+
+    color: #1e293b;
+
+    font-size: 20px;
+}
+
+.controls-header p {
+    margin: 6px 0 0;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* CONTROL GRID */
+
+.control-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 16px;
+}
+
+
+/* CONTROL CARD */
+
+.control-card {
+    display: block;
+
+    padding: 21px;
+
+    background: #f8fafc;
+
+    border:
+        1px solid #e2e8f0;
+
+    border-radius: 12px;
+
+    text-decoration: none;
+
+    color: inherit;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.control-card:hover {
+    background: white;
+
+    border-color: #93c5fd;
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(15, 23, 42, 0.08);
+}
+
+.control-icon {
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #dbeafe;
+
+    border-radius: 10px;
+
+    font-size: 20px;
+
+    margin-bottom: 14px;
+}
+
+.control-card h3 {
+    margin: 0 0 7px;
+
+    color: #1e293b;
+
+    font-size: 15px;
+}
+
+.control-card p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 12px;
+
+    line-height: 1.55;
+}
+
+.control-arrow {
+    display: block;
+
+    margin-top: 15px;
+
+    color: #2563eb;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+/* ========================================
+   NOTIFICATION BUTTON
+======================================== */
+
+.admin-notification {
+    position: relative;
+}
+
+.notification-btn {
+    position: relative;
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eff6ff;
+
+    border:
+        1px solid rgba(255,255,255,0.15);
+
+    border-radius: 10px;
+
+    text-decoration: none;
+
+    font-size: 20px;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.notification-btn:hover {
+    background: #dbeafe;
+
+    transform: translateY(-1px);
+}
+
+.notification-badge {
+    position: absolute;
+
+    top: -5px;
+    right: -5px;
+
+    min-width: 20px;
+    height: 20px;
+
+    padding: 0 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ef4444;
+
+    color: white;
+
+    border-radius: 50%;
+
+    border:
+        2px solid #1e293b;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+/* ========================================
+   BOTTOM ACTIONS
+======================================== */
+
+.bottom-actions {
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 26px;
+
+    flex-wrap: wrap;
+}
+
+.button {
+    padding: 11px 18px;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    background: #2563eb;
+
+    color: white;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.button:hover {
+    background: #1d4ed8;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 12px
+        rgba(37, 99, 235, 0.20);
+}
+
+.secondary {
+    background: #e2e8f0;
+
+    color: #334155;
+}
+
+.secondary:hover {
+    background: #cbd5e1;
+
+    box-shadow: none;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 1000px) {
+
+    .stats {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .control-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .navbar {
+        padding: 12px 18px;
+    }
+
+    .admin-info {
+        display: none;
+    }
+
+    .container {
+        padding:
+            27px 15px
+            40px;
+    }
+
+    .welcome h1 {
+        font-size: 25px;
+    }
+
+    .welcome p {
+        font-size: 14px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+
+        gap: 14px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+
+        gap: 16px;
+    }
+
+    .control-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card,
+    .admin-controls {
+        padding: 20px;
+    }
+
+    .section-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 10px;
+    }
+
+    .bottom-actions {
+        flex-direction: column;
+    }
+
+    .button {
+        width: 100%;
+
+        text-align: center;
+    }
+
+    .logout {
+        padding:
+            9px 13px;
+
+        font-size: 12px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            🔐
+        </div>
+
+        SecureCrypt
+
+    </div>
+
+
+    <div class="nav-right">
+
+        <div class="admin-info">
+
+            <div class="admin-avatar">
+                👤
+            </div>
+            <a href="{% url 'pending_approvals' %}" class="notification-btn">
+    🔔
+    
+    {% if pending_count > 0 %}
+        <span class="notification-badge">
+            {{ pending_count }}
+        </span>
+    {% endif %}
+</a>
+            <div class="admin-text">
+
+                <div class="admin-label">
+                    Administrator
+                </div>
+
+                {{ request.user.username }}
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="{% url 'logout' %}"
+            class="logout"
+        >
+            Logout
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="container">
+
+
+    <!-- WELCOME -->
+
+    <section class="welcome">
+
+        <h1>
+            Welcome back, {{ request.user.username }} 👋
+        </h1>
+
+        <p>
+            Here's an overview of your SecureCrypt system.
+        </p>
+
+    </section>
+
+
+    <!-- ================= STATISTICS ================= -->
+
+    <section class="stats">
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <span class="stat-title">
+                    Total Users
+                </span>
+
+                <div class="stat-icon blue">
+                    👥
+                </div>
+
+            </div>
+
+            <div class="stat-number">
+                {{ total_users }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <span class="stat-title">
+                    Approved Users
+                </span>
+
+                <div class="stat-icon green">
+                    ✓
+                </div>
+
+            </div>
+
+            <div class="stat-number">
+                {{ approved_users }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <span class="stat-title">
+                    Pending Approvals
+                </span>
+
+                <div class="stat-icon yellow">
+                    ⏳
+                </div>
+
+            </div>
+
+            <div class="stat-number">
+                {{ pending_users }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <span class="stat-title">
+                    Encrypted Files
+                </span>
+
+                <div class="stat-icon purple">
+                    🔐
+                </div>
+
+            </div>
+
+            <div class="stat-number">
+                {{ total_files }}
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- ================= RECENT DATA ================= -->
+
+    <section class="grid">
+
+
+        <!-- USERS -->
+
+        <div class="card">
+
+            <div class="card-title">
+
+                <div class="card-title-icon">
+                    👥
+                </div>
+
+                <div>
+
+                    <h2>
+                        Recent Users
+                    </h2>
+
+                    <p>
+                        Latest registered accounts
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {% if recent_users %}
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    User
+                                </th>
+
+                                <th>
+                                    Email
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                        {% for user in recent_users %}
+
+                            <tr>
+
+                                <td>
+                                    {{ user.username }}
+                                </td>
+
+                                <td>
+                                    {{ user.email }}
+                                </td>
+
+                                <td>
+
+                                    {% if user.status == "APPROVED" %}
+
+                                        <span class="status approved">
+                                            ● Approved
+                                        </span>
+
+                                    {% elif user.status == "PENDING" %}
+
+                                        <span class="status pending">
+                                            ● Pending
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="status rejected">
+                                            ● Rejected
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="empty">
+                    👥 No users found.
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- FILES -->
+
+        <div class="card">
+
+            <div class="card-title">
+
+                <div class="card-title-icon">
+                    🔐
+                </div>
+
+                <div>
+
+                    <h2>
+                        Recent Encrypted Files
+                    </h2>
+
+                    <p>
+                        Latest encrypted activity
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {% if recent_files %}
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    File
+                                </th>
+
+                                <th>
+                                    Owner
+                                </th>
+
+                                <th>
+                                    Created
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                        {% for file in recent_files %}
+
+                            <tr>
+
+                                <td>
+                                    {{ file.original_filename }}
+                                </td>
+
+                                <td>
+                                    {{ file.owner.username }}
+                                </td>
+
+                                <td>
+                                    {{ file.created_at|date:"d M Y" }}
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="empty">
+                    🔐 No encrypted files found.
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+    </section>
+
+
+    <!-- ================= ADMIN CONTROLS ================= -->
+
+    <section class="admin-controls">
+
+
+        <div class="controls-header">
+
+            <h2>
+                ⚡ Administration
+            </h2>
+
+            <p>
+                Manage your SecureCrypt system from one place.
+            </p>
+
+        </div>
+
+
+        <div class="control-grid">
+
+
+            <!-- PROFILE -->
+
+            <a
+                href="{% url 'profile' %}"
+                class="control-card"
+            >
+
+                <div class="control-icon">
+                    👤
+                </div>
+
+                <h3>
+                    My Profile
+                </h3>
+
+                <p>
+                    View your administrator account and update your personal information.
+                </p>
+
+                <span class="control-arrow">
+                    Open Profile →
+                </span>
+
+            </a>
+
+
+            <!-- DJANGO ADMIN -->
+
+            <a
+                href="/admin/"
+                class="control-card"
+            >
+
+                <div class="control-icon">
+                    ⚙️
+                </div>
+
+                <h3>
+                    System Administration
+                </h3>
+
+                <p>
+                    Access advanced Django administration and database controls.
+                </p>
+
+                <span class="control-arrow">
+                    Open Admin →
+                </span>
+
+            </a>
+
+
+            <!-- USER DASHBOARD -->
+
+            <a
+                href="{% url 'dashboard' %}"
+                class="control-card"
+            >
+
+                <div class="control-icon">
+                    🏠
+                </div>
+
+                <h3>
+                    User Dashboard
+                </h3>
+
+                <p>
+                    Switch to the normal SecureCrypt dashboard and access user features.
+                </p>
+
+                <span class="control-arrow">
+                    Open Dashboard →
+                </span>
+
+            </a>
+
+
+            <!-- PENDING USERS PLACEHOLDER -->
+
+            <a href="{% url 'pending_approvals' %}" class="control-card">
+
+            <div class="control-icon">
+                ⏳
+            </div>
+
+            <h3>
+                Pending Approvals
+            </h3>
+
+            <p>
+                Review newly registered users waiting for administrator approval.
+            </p>
+
+            <span class="control-arrow">
+                View Pending Approvals →
+            </span>
+
+            </a>
+
+
+            <!-- USER MANAGEMENT PLACEHOLDER -->
+            
+            <a
+            href="{% url 'admin_users' %}"
+                class="control-card"
+            >
+
+                <div class="control-icon">
+                    👥
+                </div>
+
+                <h3>
+                    User Management
+                </h3>
+
+                <p>
+                    User search, account management and status controls will be added next.
+                </p>
+
+                <span class="control-arrow">
+                Manage Users →
+            </span>
+
+        </a>
+
+
+            <!-- FILE MANAGEMENT PLACEHOLDER -->
+
+            <a href="{% url 'admin_files' %}" class="control-card">
+
+                <div class="control-icon">
+                    🔐
+                </div>
+
+                <h3>
+                    File Management
+                </h3>
+
+                <p>
+                   view ,search and manage encrypted files 
+                </p>
+                <span class="control-arrow">
+                Manage Files →
+                </span>
+
+            </a>
+            <a href="{% url 'admin_insights' %}" class="control-card">
+
+    <div class="control-icon">
+        📊
+    </div>
+
+    <h3>
+        Insights
+    </h3>
+
+    <p>
+        View reports, analytics and system statistics.
+    </p>
+
+    <span class="control-arrow">
+        Open Insights →
+    </span>
+
+</a>
+
+        
+        <a href="{% url 'admin_activity_logs' %}" class="control-card">
+        
+    <div class="control-icon">
+        🔐
+    </div>
+
+    <h3>Activity Logs</h3>
+
+    <p>
+        View administrator actions and system activity.
+    </p>
+
+    <span class="control-arrow">
+        View Activity Logs →
+    </span>
+</a>
+    <a href="{% url 'admin_security_logs' %}" class="control-card">
+
+    <div class="control-icon">
+        🛡️
+    </div>
+
+    <h3>Security Logs</h3>
+
+    <p>
+        Monitor failed logins, account locks,
+        and successful login activity.
+    </p>
+
+    <span class="control-arrow">
+        View Security Logs →
+    </span>
+
+</a>
+</div>
+
+
+    </section>
+
+
+    <!-- ================= BOTTOM ACTIONS ================= -->
+
+    <div class="bottom-actions">
+
+        <a
+            href="{% url 'profile' %}"
+            class="button"
+        >
+            👤 My Profile
+        </a>
+
+
+        <a
+            href="{% url 'dashboard' %}"
+            class="button secondary"
+        >
+            🏠 User Dashboard
+        </a>
+
+
+        <a
+            href="/admin/"
+            class="button secondary"
+        >
+            ⚙️ Django Admin
+        </a>
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>

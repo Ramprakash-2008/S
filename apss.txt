@@ -1,0 +1,8 @@
+from accounts.models import CustomUser
+
+user = CustomUser.objects.get(username="LEODAS")
+
+user.set_password("qwertykeyword1234")
+user.save()
+
+//ram ,password:qwertykeyword1234

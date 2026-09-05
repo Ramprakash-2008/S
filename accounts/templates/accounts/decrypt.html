@@ -1,0 +1,690 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Decrypt File | SecureCrypt</title>
+
+    <style>
+
+        /* ========================================
+           GLOBAL
+        ======================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #08111f,
+                    #0d1b2a
+                );
+
+            color: #e5edf7;
+            min-height: 100vh;
+        }
+
+
+        /* ========================================
+           NAVBAR
+        ======================================== */
+
+        .navbar {
+            height: 72px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 45px;
+
+            background: #101c2d;
+
+            border-bottom:
+                1px solid #223a56;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            text-decoration: none;
+            color: white;
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #1d4ed8
+                );
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 0 20px
+                rgba(37, 99, 235, 0.35);
+        }
+
+        .brand-name {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: #b8c7d9;
+
+            padding: 10px 18px;
+
+            border:
+                1px solid #294563;
+
+            border-radius: 8px;
+
+            transition: 0.25s ease;
+        }
+
+        .back-btn:hover {
+            color: white;
+            border-color: #3b82f6;
+
+            background:
+                rgba(59, 130, 246, 0.1);
+        }
+
+
+        /* ========================================
+           MAIN PAGE
+        ======================================== */
+
+        .page-container {
+            width: 100%;
+            max-width: 760px;
+
+            margin: 0 auto;
+
+            padding:
+                55px 25px 70px;
+        }
+
+
+        /* ========================================
+           PAGE HEADER
+        ======================================== */
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 30px;
+
+            margin-bottom: 10px;
+
+            color: #f1f5f9;
+        }
+
+        .page-header p {
+            color: #94a3b8;
+            font-size: 15px;
+        }
+
+
+        /* ========================================
+           MESSAGES
+        ======================================== */
+
+        .messages {
+            margin-bottom: 20px;
+        }
+
+        .message {
+            padding: 14px 16px;
+
+            margin-bottom: 10px;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+            line-height: 1.5;
+
+            transition: opacity 0.5s ease;
+        }
+
+        .message.error {
+            background:
+                rgba(239, 68, 68, 0.12);
+
+            color: #fca5a5;
+
+            border:
+                1px solid
+                rgba(239, 68, 68, 0.3);
+        }
+
+        .message.success {
+            background:
+                rgba(34, 197, 94, 0.12);
+
+            color: #86efac;
+
+            border:
+                1px solid
+                rgba(34, 197, 94, 0.3);
+        }
+
+        .message.warning {
+            background:
+                rgba(245, 158, 11, 0.12);
+
+            color: #fcd34d;
+
+            border:
+                1px solid
+                rgba(245, 158, 11, 0.3);
+        }
+
+        .message.info {
+            background:
+                rgba(59, 130, 246, 0.12);
+
+            color: #93c5fd;
+
+            border:
+                1px solid
+                rgba(59, 130, 246, 0.3);
+        }
+
+
+        /* ========================================
+           DECRYPT CARD
+        ======================================== */
+
+        .decrypt-card {
+            background: #111f31;
+
+            border:
+                1px solid #223a56;
+
+            border-radius: 16px;
+
+            padding: 32px;
+
+            box-shadow:
+                0 15px 40px
+                rgba(0, 0, 0, 0.25);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            margin-bottom: 28px;
+
+            font-size: 18px;
+            color: white;
+        }
+
+        .section-title span {
+            color: #60a5fa;
+        }
+
+
+        /* ========================================
+           FORM
+        ======================================== */
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 9px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            color: #d6e1ee;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            background: #0c1726;
+
+            border:
+                1px solid #294563;
+
+            border-radius: 9px;
+
+            color: white;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition:
+                border 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        input:focus {
+            border-color: #3b82f6;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(59, 130, 246, 0.12);
+        }
+
+        input::file-selector-button {
+            margin-right: 12px;
+
+            padding: 8px 12px;
+
+            background: #1d4ed8;
+
+            color: white;
+
+            border: none;
+            border-radius: 6px;
+
+            cursor: pointer;
+        }
+
+
+        /* ========================================
+           SECURITY INFORMATION
+        ======================================== */
+
+        .security-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+
+            padding: 16px;
+
+            margin-top: 5px;
+            margin-bottom: 25px;
+
+            background:
+                rgba(245, 158, 11, 0.08);
+
+            border:
+                1px solid
+                rgba(245, 158, 11, 0.22);
+
+            border-radius: 10px;
+        }
+
+        .security-icon {
+            font-size: 20px;
+        }
+
+        .security-info h4 {
+            color: #fcd34d;
+
+            margin-bottom: 6px;
+
+            font-size: 14px;
+        }
+
+        .security-info p {
+            color: #b9c5d3;
+
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+
+        /* ========================================
+           BUTTON
+        ======================================== */
+
+        .decrypt-btn {
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+            border-radius: 9px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #1d4ed8
+                );
+
+            color: white;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .decrypt-btn:hover {
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 10px 25px
+                rgba(37, 99, 235, 0.3);
+        }
+
+
+        /* ========================================
+           FOOTER INFO
+        ======================================== */
+
+        .bottom-info {
+            margin-top: 20px;
+
+            text-align: center;
+
+            color: #718096;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+
+        /* ========================================
+           RESPONSIVE
+        ======================================== */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .page-container {
+                padding:
+                    35px 16px 50px;
+            }
+
+            .decrypt-card {
+                padding: 22px;
+            }
+
+            .page-header h1 {
+                font-size: 25px;
+            }
+
+            .brand-name {
+                font-size: 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ========================================
+     NAVBAR
+======================================== -->
+
+<nav class="navbar">
+
+    <a
+        href="{% url 'dashboard' %}"
+        class="brand"
+    >
+
+        <div class="brand-icon">
+            🔐
+        </div>
+
+        <div class="brand-name">
+            SecureCrypt
+        </div>
+
+    </a>
+
+
+    <a
+        href="{% url 'dashboard' %}"
+        class="back-btn"
+    >
+        ← Dashboard
+    </a>
+
+</nav>
+
+
+<!-- ========================================
+     MAIN CONTENT
+======================================== -->
+
+<div class="page-container">
+
+
+    <!-- PAGE HEADER -->
+
+    <div class="page-header">
+
+        <h1>
+            🔓 Decrypt Your File
+        </h1>
+
+        <p>
+            Upload an authorized encrypted file and
+            enter its correct decryption password.
+        </p>
+
+    </div>
+
+
+    <!-- DJANGO MESSAGES -->
+
+    {% if messages %}
+
+        <div
+            class="messages"
+            id="messages"
+        >
+
+            {% for message in messages %}
+
+                <div
+                    class="message {{ message.tags }}"
+                >
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- DECRYPT FORM -->
+
+    <div class="decrypt-card">
+
+
+        <div class="section-title">
+
+            <span>🛡️</span>
+
+            Decryption Settings
+
+        </div>
+
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- ENCRYPTED FILE -->
+
+            <div class="form-group">
+
+                <label>
+                    Select Encrypted File
+                </label>
+
+                <input
+                    type="file"
+                    name="file"
+                    accept=".enc"
+                    required
+                >
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label>
+                    Decryption Password
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter the decryption password"
+                    required
+                >
+
+            </div>
+
+
+            <!-- SECURITY INFO -->
+
+            <div class="security-info">
+
+                <div class="security-icon">
+                    🛡️
+                </div>
+
+                <div>
+
+                    <h4>
+                        Ownership Protection
+                    </h4>
+
+                    <p>
+                        SecureCrypt verifies whether the encrypted
+                        file belongs to your account before allowing
+                        decryption. Unauthorized attempts are blocked
+                        and can be recorded as security events.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <button
+                type="submit"
+                class="decrypt-btn"
+            >
+                🔓 Decrypt & Download File
+            </button>
+
+
+        </form>
+
+
+        <div class="bottom-info">
+
+            Only valid <strong>.enc</strong> encrypted files
+            can be processed by SecureCrypt.
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- ========================================
+     AUTO-HIDE MESSAGES
+======================================== -->
+
+<script>
+
+    setTimeout(
+        function () {
+
+            const messages =
+                document.getElementById("messages");
+
+            if (messages) {
+
+                messages.style.opacity = "0";
+
+                setTimeout(
+                    function () {
+
+                        messages.remove();
+
+                    },
+                    500
+                );
+
+            }
+
+        },
+        4000
+    );
+
+</script>
+
+
+</body>
+</html>
+```

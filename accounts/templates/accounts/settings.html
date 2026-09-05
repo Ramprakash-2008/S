@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>SecureCrypt Settings</title>
+
+
+    <style>
+
+        /* ========================================
+           GLOBAL
+        ======================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+
+            background: #08111f;
+
+            color: #e8eef7;
+
+            min-height: 100vh;
+        }
+
+
+        /* ========================================
+           APP
+        ======================================== */
+
+        .app {
+            display: flex;
+
+            min-height: 100vh;
+        }
+
+
+        /* ========================================
+           SIDEBAR
+        ======================================== */
+
+        .sidebar {
+            width: 250px;
+
+            flex-shrink: 0;
+
+            background: #0d1929;
+
+            border-right: 1px solid #1d3148;
+
+            padding: 25px 15px;
+
+            min-height: 100vh;
+        }
+
+
+        /* ========================================
+           LOGO
+        ======================================== */
+
+        .logo {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding:
+                10px
+                12px
+                30px;
+
+            border-bottom:
+                1px solid
+                #1d3148;
+
+            margin-bottom: 25px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #1677ff;
+
+            border-radius: 10px;
+
+            font-size: 21px;
+        }
+
+        .logo h2 {
+            font-size: 21px;
+
+            color: white;
+        }
+
+        .logo span {
+            color: #5ea1ff;
+        }
+
+
+        /* ========================================
+           NAVIGATION
+        ======================================== */
+
+        .nav a {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding:
+                13px
+                15px;
+
+            margin-bottom: 8px;
+
+            text-decoration: none;
+
+            color: #94a9c2;
+
+            border-radius: 9px;
+
+            transition: 0.25s;
+        }
+
+        .nav a:hover {
+            background: #142740;
+
+            color: white;
+        }
+
+        .nav a.active {
+            background: #1677ff;
+
+            color: white;
+        }
+
+        .nav-icon {
+            width: 22px;
+
+            text-align: center;
+
+            font-size: 17px;
+        }
+
+
+        /* ========================================
+           MAIN
+        ======================================== */
+
+        .main {
+            flex: 1;
+
+            min-width: 0;
+
+            padding:
+                30px
+                40px;
+        }
+
+
+        /* ========================================
+           PAGE HEADER
+        ======================================== */
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            color: white;
+
+            font-size: 28px;
+
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: #8295ad;
+
+            font-size: 15px;
+        }
+
+
+        /* ========================================
+           SETTINGS CONTAINER
+        ======================================== */
+
+        .settings-container {
+            max-width: 900px;
+        }
+
+
+        /* ========================================
+           SETTINGS CARD
+        ======================================== */
+
+        .settings-card {
+            background: #0d1929;
+
+            border:
+                1px solid
+                #1d3148;
+
+            border-radius: 15px;
+
+            margin-bottom: 22px;
+
+            overflow: hidden;
+
+            transition:
+                border-color 0.25s,
+                box-shadow 0.25s;
+        }
+
+        .settings-card:hover {
+            border-color: #294766;
+
+            box-shadow:
+                0
+                10px
+                25px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.15
+                );
+        }
+
+
+        /* ========================================
+           CARD HEADER
+        ======================================== */
+
+        .card-header {
+            padding:
+                20px
+                25px;
+
+            border-bottom:
+                1px solid
+                #1d3148;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+        }
+
+        .header-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #112b4c;
+
+            border-radius: 10px;
+
+            font-size: 20px;
+        }
+
+        .card-header h2 {
+            color: white;
+
+            font-size: 18px;
+        }
+
+        .card-header p {
+            color: #71859d;
+
+            font-size: 13px;
+
+            margin-top: 4px;
+        }
+
+
+        /* ========================================
+           CARD BODY
+        ======================================== */
+
+        .card-body {
+            padding: 25px;
+        }
+
+
+        /* ========================================
+           ACCOUNT INFORMATION
+        ======================================== */
+
+        .info-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding:
+                15px
+                0;
+
+            border-bottom:
+                1px solid
+                #17283b;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+
+            padding-bottom: 0;
+        }
+
+        .info-row:first-child {
+            padding-top: 0;
+        }
+
+        .info-label {
+            color: #8295ad;
+
+            font-size: 14px;
+        }
+
+        .info-value {
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        /* ========================================
+           FORM GROUP
+        ======================================== */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+
+            color: #b6c5d8;
+
+            font-size: 14px;
+
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+
+            padding:
+                12px
+                14px;
+
+            background: #08111f;
+
+            border:
+                1px solid
+                #263d57;
+
+            border-radius: 8px;
+
+            color: white;
+
+            outline: none;
+
+            font-size: 14px;
+
+            transition:
+                border-color 0.25s,
+                box-shadow 0.25s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+
+            border-color: #1677ff;
+
+            box-shadow:
+                0
+                0
+                0
+                3px
+                rgba(
+                    22,
+                    119,
+                    255,
+                    0.12
+                );
+        }
+
+        .form-group input::placeholder {
+            color: #53677e;
+        }
+
+
+        /* ========================================
+           SECURITY STATUS
+        ======================================== */
+
+        .security-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding:
+                16px 0;
+
+            border-bottom:
+                1px solid
+                #17283b;
+        }
+
+        .security-row:last-child {
+            border-bottom: none;
+
+            padding-bottom: 0;
+        }
+
+        .security-info h3 {
+            color: white;
+
+            font-size: 15px;
+
+            margin-bottom: 5px;
+        }
+
+        .security-info p {
+            color: #71859d;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        /* ========================================
+           STATUS BADGE
+        ======================================== */
+
+        .status-badge {
+            padding:
+                7px
+                13px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+        }
+
+        .status-active {
+            color: #72dda0;
+
+            background: #103324;
+
+            border:
+                1px solid
+                #166534;
+        }
+
+        .status-disabled {
+            color: #ff9b9b;
+
+            background: #3b171a;
+
+            border:
+                1px solid
+                #7f1d1d;
+        }
+
+
+        /* ========================================
+           TOGGLE
+        ======================================== */
+
+        .toggle {
+            position: relative;
+
+            width: 46px;
+            height: 24px;
+
+            flex-shrink: 0;
+        }
+
+        .toggle input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+
+            inset: 0;
+
+            background: #263d57;
+
+            border-radius: 20px;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        .slider::before {
+            content: "";
+
+            position: absolute;
+
+            width: 18px;
+            height: 18px;
+
+            left: 3px;
+            top: 3px;
+
+            background: #9aabc0;
+
+            border-radius: 50%;
+
+            transition: 0.25s;
+        }
+
+        .toggle input:checked + .slider {
+            background: #1677ff;
+        }
+
+        .toggle input:checked + .slider::before {
+            transform: translateX(22px);
+
+            background: white;
+        }
+
+
+        /* ========================================
+           BUTTONS
+        ======================================== */
+
+        .btn {
+            display: inline-block;
+
+            padding:
+                10px
+                18px;
+
+            border: none;
+
+            background: #1677ff;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        .btn:hover {
+            background: #0566e8;
+
+            transform:
+                translateY(-1px);
+        }
+
+        .btn-outline {
+
+            background: transparent;
+
+            border:
+                1px solid
+                #2b5682;
+
+            color: #8fc0ff;
+        }
+
+        .btn-outline:hover {
+            background: #142b47;
+        }
+
+
+        /* ========================================
+           DANGER ZONE
+        ======================================== */
+
+        .danger-card {
+            border-color: #5c252a;
+        }
+
+        .danger-card:hover {
+            border-color: #7f1d1d;
+        }
+
+        .danger-header {
+            background: #211316;
+        }
+
+        .danger-header .header-icon {
+            background: #3b171a;
+        }
+
+        .danger-header h2 {
+            color: #ffb0b0;
+        }
+
+        .danger-text {
+            color: #8295ad;
+
+            line-height: 1.6;
+
+            font-size: 14px;
+
+            margin-bottom: 18px;
+        }
+
+        .btn-danger {
+            background: #dc2626;
+        }
+
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+
+
+        /* ========================================
+           DJANGO MESSAGES
+        ======================================== */
+
+        .messages {
+            position: fixed;
+
+            top: 25px;
+
+            right: 25px;
+
+            width:
+                min(
+                    400px,
+                    calc(100% - 40px)
+                );
+
+            z-index: 1000;
+        }
+
+        .message {
+            padding:
+                14px
+                18px;
+
+            margin-bottom: 10px;
+
+            border-radius: 10px;
+
+            font-weight: 600;
+
+            box-shadow:
+                0
+                10px
+                25px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.25
+                );
+
+            transition:
+                opacity
+                0.5s
+                ease;
+        }
+
+        .message.error {
+            background: #3b171a;
+
+            color: #ff9b9b;
+
+            border:
+                1px solid
+                #7f1d1d;
+        }
+
+        .message.success {
+            background: #123326;
+
+            color: #8ce7b0;
+
+            border:
+                1px solid
+                #166534;
+        }
+
+        .message.warning {
+            background: #3a2d0c;
+
+            color: #f9d875;
+
+            border:
+                1px solid
+                #854d0e;
+        }
+
+        .message.info {
+            background: #102a47;
+
+            color: #8fc5ff;
+
+            border:
+                1px solid
+                #1d4ed8;
+        }
+
+
+        /* ========================================
+           RESPONSIVE - TABLET
+        ======================================== */
+
+        @media (max-width: 900px) {
+
+            .main {
+                padding: 30px;
+            }
+
+        }
+
+
+        /* ========================================
+           RESPONSIVE - MOBILE
+        ======================================== */
+
+        @media (max-width: 750px) {
+
+            .sidebar {
+                width: 75px;
+
+                padding:
+                    25px
+                    10px;
+            }
+
+            .sidebar h2,
+            .nav span {
+                display: none;
+            }
+
+            .logo {
+                justify-content: center;
+
+                padding-left: 0;
+
+                padding-right: 0;
+            }
+
+            .nav a {
+                justify-content: center;
+
+                padding:
+                    13px
+                    8px;
+            }
+
+            .main {
+                padding:
+                    25px
+                    18px;
+            }
+
+            .page-header h1 {
+                font-size: 23px;
+            }
+
+            .card-body {
+                padding: 20px;
+            }
+
+        }
+
+
+        /* ========================================
+           SMALL MOBILE
+        ======================================== */
+
+        @media (max-width: 500px) {
+
+            .sidebar {
+                width: 65px;
+            }
+
+            .main {
+                padding:
+                    20px
+                    14px;
+            }
+
+            .page-header h1 {
+                font-size: 20px;
+            }
+
+            .card-header {
+                padding:
+                    18px
+                    20px;
+            }
+
+            .info-row,
+            .security-row {
+                align-items: flex-start;
+
+                gap: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ========================================
+     DJANGO MESSAGES
+======================================== -->
+
+{% if messages %}
+
+    <div
+        class="messages"
+        id="messages"
+    >
+
+        {% for message in messages %}
+
+            <div class="message {{ message.tags }}">
+
+                {{ message }}
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+{% endif %}
+
+
+
+<div class="app">
+
+
+    <!-- ========================================
+         SIDEBAR
+    ======================================== -->
+
+    <aside class="sidebar">
+
+
+        <!-- LOGO -->
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                🔐
+            </div>
+
+            <h2>
+                Secure<span>Crypt</span>
+            </h2>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="nav">
+
+
+            <!-- DASHBOARD -->
+
+            <a href="{% url 'dashboard' %}">
+
+                <span class="nav-icon">
+                    🏠
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <!-- ENCRYPT -->
+
+            <a href="{% url 'encrypt' %}">
+
+                <span class="nav-icon">
+                    🔒
+                </span>
+
+                <span>
+                    Encrypt File
+                </span>
+
+            </a>
+
+
+            <!-- DECRYPT -->
+
+            <a href="{% url 'decrypt' %}">
+
+                <span class="nav-icon">
+                    🔓
+                </span>
+
+                <span>
+                    Decrypt File
+                </span>
+
+            </a>
+
+
+            <!-- MY FILES -->
+
+            <a href="{% url 'my_files' %}">
+
+                <span class="nav-icon">
+                    📁
+                </span>
+
+                <span>
+                    My Files
+                </span>
+
+            </a>
+
+
+            <!-- PROFILE -->
+
+            <a href="{% url 'profile' %}">
+
+                <span class="nav-icon">
+                    👤
+                </span>
+
+                <span>
+                    Profile
+                </span>
+
+            </a>
+
+
+            <!-- SETTINGS -->
+
+            <a
+                href="{% url 'settings' %}"
+                class="active"
+            >
+
+                <span class="nav-icon">
+                    ⚙️
+                </span>
+
+                <span>
+                    Settings
+                </span>
+
+            </a>
+
+
+            <!-- LOGOUT -->
+
+            <a href="{% url 'logout' %}">
+
+                <span class="nav-icon">
+                    🚪
+                </span>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+
+        </nav>
+
+    </aside>
+
+
+
+    <!-- ========================================
+         MAIN
+    ======================================== -->
+
+    <main class="main">
+
+
+        <!-- PAGE HEADER -->
+
+        <header class="page-header">
+
+            <h1>
+                Settings
+            </h1>
+
+            <p>
+                Manage your SecureCrypt account
+                and security preferences.
+            </p>
+
+        </header>
+
+
+
+        <div class="settings-container">
+
+
+            <!-- ====================================
+                 ACCOUNT INFORMATION
+            ==================================== -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="header-icon">
+                        👤
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Account Information
+                        </h2>
+
+                        <p>
+                            Your SecureCrypt account details
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            Username
+                        </span>
+
+                        <span class="info-value">
+                            {{ request.user.username }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            Email
+                        </span>
+
+                        <span class="info-value">
+                            {{ request.user.email }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            Account Status
+                        </span>
+
+                        <span class="status-badge status-active">
+                            Active
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ====================================
+                 PASSWORD
+            ==================================== -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="header-icon">
+                        🔑
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Password & Authentication
+                        </h2>
+
+                        <p>
+                            Keep your account credentials secure
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="security-row">
+
+                        <div class="security-info">
+
+                            <h3>
+                                Password
+                            </h3>
+
+                            <p>
+                                Change your SecureCrypt
+                                account password.
+                            </p>
+
+                        </div>
+
+                        <a
+                            href="#"
+                            class="btn btn-outline"
+                        >
+                            Change Password
+                        </a>
+
+                    </div>
+
+
+                    <div class="security-row">
+
+                        <div class="security-info">
+
+                            <h3>
+                                Login Security
+                            </h3>
+
+                            <p>
+                                Your account is protected
+                                by password authentication.
+                            </p>
+
+                        </div>
+
+                        <span class="status-badge status-active">
+                            Protected
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ====================================
+                 NOTIFICATIONS
+            ==================================== -->
+<section class="settings-card">
+
+    <div class="card-header">
+
+        <div class="header-icon">
+            🔔
+        </div>
+
+        <div>
+
+            <h2>
+                Notification Preferences
+            </h2>
+
+            <p>
+                Control which security notifications
+                you receive.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="card-body">
+
+
+        <!-- SECURITY ALERTS -->
+
+        <form
+            method="POST"
+            class="security-row"
+        >
+
+            {% csrf_token %}
+
+            <input
+                type="hidden"
+                name="setting"
+                value="security_alerts"
+            >
+
+
+            <div class="security-info">
+
+                <h3>
+                    Security Alerts
+                </h3>
+
+                <p>
+                    Receive notifications about
+                    important security events.
+                </p>
+
+            </div>
+
+
+            <label class="toggle">
+
+                <input
+                    type="checkbox"
+                    name="security_alerts"
+                    onchange="this.form.submit()"
+
+                    {% if request.user.security_alerts %}
+                        checked
+                    {% endif %}
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </form>
+
+
+        <!-- FILE EXPIRY ALERTS -->
+
+        <form
+            method="POST"
+            class="security-row"
+        >
+
+            {% csrf_token %}
+
+            <input
+                type="hidden"
+                name="setting"
+                value="file_expiry_alerts"
+            >
+
+
+            <div class="security-info">
+
+                <h3>
+                    File Expiry Alerts
+                </h3>
+
+                <p>
+                    Get notified when encrypted
+                    files are close to expiry.
+                </p>
+
+            </div>
+
+
+            <label class="toggle">
+
+                <input
+                    type="checkbox"
+                    name="file_expiry_alerts"
+                    onchange="this.form.submit()"
+
+                    {% if request.user.file_expiry_alerts %}
+                        checked
+                    {% endif %}
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </form>
+
+
+    </div>
+
+</section>
+            <!-- ====================================
+                 SECURITY
+            ==================================== -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="header-icon">
+                        🛡️
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Security
+                        </h2>
+
+                        <p>
+                            Review your account security status.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="security-row">
+
+                        <div class="security-info">
+
+                            <h3>
+                                Account Protection
+                            </h3>
+
+                            <p>
+                                Your account is currently active
+                                and protected.
+                            </p>
+
+                        </div>
+
+                        <span class="status-badge status-active">
+                            Active
+                        </span>
+
+                    </div>
+
+
+                    <div class="security-row">
+
+                        <div class="security-info">
+
+                            <h3>
+                                Security Logs
+                            </h3>
+
+                            <p>
+                                Review recent security-related
+                                activity on your account.
+                            </p>
+
+                        </div>
+
+                        <a
+                            href="{% url 'security_logs' %}"
+                            class="btn btn-outline"
+                        >
+                            View Logs
+                        </a>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ====================================
+                 DANGER ZONE
+            ==================================== -->
+
+            <section
+                class="settings-card danger-card"
+            >
+
+                <div
+                    class="
+                        card-header
+                        danger-header
+                    "
+                >
+
+                    <div class="header-icon">
+                        ⚠️
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Danger Zone
+                        </h2>
+
+                        <p>
+                            Actions that affect your session.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <p class="danger-text">
+
+                        Logging out will end your current
+                        SecureCrypt session on this device.
+
+                    </p>
+
+
+                    <a
+                        href="{% url 'logout' %}"
+                        class="btn btn-danger"
+                    >
+
+                        🚪 Logout
+
+                    </a>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+
+<!-- ========================================
+     MESSAGE AUTO HIDE
+======================================== -->
+
+<script>
+
+    setTimeout(
+        function () {
+
+            const messages =
+                document.getElementById(
+                    "messages"
+                );
+
+            if (messages) {
+
+                messages.style.opacity = "0";
+
+                setTimeout(
+                    function () {
+
+                        messages.remove();
+
+                    },
+                    500
+                );
+
+            }
+
+        },
+        3000
+    );
+
+</script>
+
+
+</body>
+
+</html>

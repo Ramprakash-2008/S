@@ -1,0 +1,701 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Activity Logs | SecureCrypt</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1e293b;
+        }
+
+        /* ================= HEADER ================= */
+
+        .header {
+            height: 64px;
+            background: #111827;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 28px;
+
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .logo-icon {
+            width: 34px;
+            height: 34px;
+
+            border-radius: 9px;
+
+            background: #2563eb;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 18px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-name {
+            font-size: 14px;
+            color: #e5e7eb;
+        }
+
+        .back-btn {
+            text-decoration: none;
+
+            background: #2563eb;
+            color: white;
+
+            padding: 9px 15px;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* ================= MAIN ================= */
+
+        .container {
+            max-width: 1200px;
+
+            margin: 30px auto;
+
+            padding: 0 20px;
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 22px;
+        }
+
+        .page-title h1 {
+            font-size: 25px;
+            color: #0f172a;
+        }
+
+        .page-title p {
+            margin-top: 5px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* ================= STATS ================= */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 16px;
+
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+
+            border-radius: 10px;
+
+            padding: 18px 20px;
+
+            box-shadow:
+                0 2px 8px rgba(15,23,42,0.08);
+
+            border: 1px solid #e5e7eb;
+        }
+
+        .stat-title {
+            font-size: 12px;
+            color: #64748b;
+
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 25px;
+            font-weight: bold;
+
+            color: #2563eb;
+        }
+        .stat-card strong {
+    font-size: 25px;
+    font-weight: bold;
+    color: #2563eb;
+    }
+
+        /* ================= LOG CARD ================= */
+
+        .log-card {
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 22px;
+
+            box-shadow:
+                0 2px 10px rgba(15,23,42,0.08);
+
+            border: 1px solid #e5e7eb;
+        }
+
+        .log-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 20px;
+        }
+
+        .log-header h2 {
+            font-size: 18px;
+
+            color: #0f172a;
+        }
+
+        /* ================= SEARCH ================= */
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            flex: 1;
+
+            padding: 11px 14px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 7px;
+
+            outline: none;
+
+            font-size: 14px;
+        }
+
+        .search-box input:focus {
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 2px rgba(37,99,235,0.1);
+        }
+
+        .search-btn {
+            border: none;
+
+            background: #2563eb;
+            color: white;
+
+            padding: 10px 18px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+        .search-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* ================= TABLE ================= */
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            font-size: 14px;
+        }
+
+        thead {
+            background: #2563eb;
+            color: white;
+        }
+
+        th {
+            text-align: left;
+
+            padding: 13px 14px;
+
+            font-size: 13px;
+        }
+
+        td {
+            padding: 13px 14px;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            color: #334155;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        /* ================= ACTION BADGES ================= */
+
+        .action-badge {
+            display: inline-block;
+
+            padding: 5px 9px;
+
+            border-radius: 5px;
+
+            font-size: 11px;
+
+            font-weight: bold;
+        }
+
+        .approve {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .reject {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .activate {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .deactivate {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .download {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .delete {
+            background: #ffe4e6;
+            color: #9f1239;
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty {
+            text-align: center;
+
+            padding: 45px 20px;
+
+            color: #64748b;
+        }
+
+        .empty-icon {
+            font-size: 35px;
+
+            margin-bottom: 10px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        .footer {
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #94a3b8;
+
+            font-size: 12px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 900px) {
+
+            .stats {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 0 15px;
+            }
+
+            .admin-name {
+                display: none;
+            }
+
+            .container {
+                margin-top: 20px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                display: block;
+            }
+
+            .back-btn {
+                display: inline-block;
+
+                margin-top: 12px;
+            }
+        }
+        .download-btn {
+    display: inline-block;
+    padding: 10px 18px;
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.download-btn:hover {
+    background: #1d4ed8;
+}
+    </style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<div class="header">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            🔐
+        </div>
+
+        SecureCrypt
+
+    </div>
+
+
+    <div class="header-right">
+
+        <span class="admin-name">
+            Administrator:
+            {{ request.user.username }}
+        </span>
+
+        <a href="{% url 'admin_dashboard' %}"
+           class="back-btn">
+
+            ← Admin Dashboard
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="container">
+
+
+    <!-- TITLE -->
+
+    <div class="page-title">
+
+        <div>
+
+            <h1>
+                📋 Admin Activity Logs
+            </h1>
+
+            <p>
+                Monitor administrator actions performed in SecureCrypt.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= STAT CARDS ================= -->
+
+    <div class="stats">
+
+        <div class="stat-card">
+    <span>Total Activities</span>
+    <strong>{{ total_activities }}</strong>
+</div>
+
+<div class="stat-card">
+    <span>Approved Users</span>
+    <strong>{{ approved_users }}</strong>
+</div>
+
+<div class="stat-card">
+    <span>Rejected Users</span>
+    <strong>{{ rejected_users }}</strong>
+</div>
+
+<div class="stat-card">
+    <span>File Activities</span>
+    <strong>{{ file_activities }}</strong>
+</div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= LOG TABLE ================= -->
+
+    <div class="log-card">
+
+        <div class="log-header">
+
+            <h2>
+                📝 Recent Administrator Activities
+            </h2>
+
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <form method="GET"
+              class="search-box">
+
+            <input
+                type="text"
+                name="search"
+                value="{{ request.GET.search }}"
+                placeholder="Search admin, action or target..."
+            >
+
+            <button
+                type="submit"
+                class="search-btn">
+
+                🔍 Search
+
+            </button>
+            <div style="margin-top: 15px; text-align: right;">
+        <a href="{% url 'download_activity_logs' %}"
+       class="download-btn">
+        📥 Download Excel
+        </a>
+        </div>
+
+        </form>
+
+
+        <!-- TABLE -->
+
+        <div class="table-wrapper">
+
+            {% if logs %}
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            #
+                        </th>
+
+                        <th>
+                            Administrator
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                        <th>
+                            Target
+                        </th>
+
+                        <th>
+                            Date & Time
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for log in logs %}
+
+                    <tr>
+
+                        <td>
+                            #{{ forloop.counter }}
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                {{ log.admin.username }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            {% if log.action == "APPROVE_USER" %}
+
+                                <span class="action-badge approve">
+                                    Approved User
+                                </span>
+
+                            {% elif log.action == "REJECT_USER" %}
+
+                                <span class="action-badge reject">
+                                    Rejected User
+                                </span>
+
+                            {% elif log.action == "ACTIVATE_USER" %}
+
+                                <span class="action-badge activate">
+                                    Activated User
+                                </span>
+
+                            {% elif log.action == "DEACTIVATE_USER" %}
+
+                                <span class="action-badge deactivate">
+                                    Deactivated User
+                                </span>
+
+                            {% elif log.action == "DOWNLOAD_FILE" %}
+
+                                <span class="action-badge download">
+                                    Downloaded File
+                                </span>
+
+                            {% elif log.action == "DELETE_FILE" %}
+
+                                <span class="action-badge delete">
+                                    Deleted File
+                                </span>
+
+                            {% else %}
+
+                                <span class="action-badge">
+                                    {{ log.get_action_display }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+                            {{ log.target }}
+                        </td>
+
+
+                        <td>
+                            {{ log.created_at|date:"d M Y, h:i A" }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📭
+                </div>
+
+                <h3>
+                    No activity logs found
+                </h3>
+
+                <p>
+                    Administrator activities will appear here.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+
+        SecureCrypt Admin Activity Monitoring
+
+    </div>
+
+</div>
+
+</body>
+</html>

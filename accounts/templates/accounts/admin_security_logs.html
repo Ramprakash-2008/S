@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Security Logs - SecureCrypt</title>
+
+    <style>
+        table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+th,
+td {
+    padding: 13px 14px;
+    text-align: left;
+}
+
+th:nth-child(1),
+td:nth-child(1) {
+    width: 15%;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+    width: 15%;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+    width: 35%;
+}
+
+th:nth-child(4),
+td:nth-child(4) {
+    width: 20%;
+}
+
+th:nth-child(5),
+td:nth-child(5) {
+    width: 15%;
+}
+.lock-btn {
+    border: none;
+    background: #dc2626;
+    color: white;
+    padding: 7px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.lock-btn:hover {
+    background: #b91c1c;
+}
+.lock-form {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.lock-form select {
+    padding: 6px 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background: white;
+}
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1e293b;
+        }
+
+        /* HEADER */
+
+        .header {
+            background: #111827;
+            color: white;
+
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 21px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+
+            background: #2563eb;
+            color: white;
+
+            padding: 9px 15px;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* CONTAINER */
+
+        .container {
+            max-width: 1200px;
+
+            margin: 30px auto;
+
+            padding: 0 20px;
+        }
+
+        .title {
+            margin-bottom: 22px;
+        }
+
+        .title h2 {
+            font-size: 25px;
+            color: #0f172a;
+        }
+
+        .title p {
+            margin-top: 5px;
+            color: #64748b;
+        }
+
+        /* STAT CARDS */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 16px;
+
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            border: 1px solid #e5e7eb;
+
+            box-shadow:
+                0 2px 8px rgba(15,23,42,0.08);
+        }
+
+        .stat-card span {
+            display: block;
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            margin-bottom: 8px;
+        }
+
+        .stat-card strong {
+            font-size: 27px;
+
+            color: #2563eb;
+        }
+
+        /* LOG CARD */
+
+        .log-card {
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 22px;
+
+            border: 1px solid #e5e7eb;
+
+            box-shadow:
+                0 2px 10px rgba(15,23,42,0.08);
+        }
+
+        .log-card h3 {
+            margin-bottom: 18px;
+            color: #0f172a;
+        }
+
+        /* TABLE */
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            font-size: 14px;
+        }
+
+        thead {
+            background: #2563eb;
+            color: white;
+        }
+
+        th {
+            padding: 13px 14px;
+
+            text-align: left;
+
+            font-size: 13px;
+        }
+
+        td {
+            padding: 13px 14px;
+
+            border-bottom:
+                1px solid #e5e7eb;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        /* EVENT BADGES */
+
+        .badge {
+            display: inline-block;
+
+            padding: 5px 9px;
+
+            border-radius: 5px;
+
+            font-size: 11px;
+
+            font-weight: bold;
+        }
+
+        .failed {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .locked {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        /* EMPTY */
+
+        .empty {
+            text-align: center;
+
+            padding: 45px;
+
+            color: #64748b;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+
+            .stats {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 15px;
+            }
+
+        }
+        .unlock-btn {
+    border: none;
+    background: #16a34a;
+    color: white;
+    padding: 7px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.unlock-btn:hover {
+    background: #15803d;
+}
+.log-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.download-btn,
+.clear-btn {
+    padding: 9px 15px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+}
+
+.download-btn {
+    background: #2563eb;
+    color: white;
+}
+
+.download-btn:hover {
+    background: #1d4ed8;
+}
+
+.clear-btn {
+    background: #dc2626;
+    color: white;
+}
+
+.clear-btn:hover {
+    background: #b91c1c;
+}
+    </style>
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <h1>🔐 SecureCrypt Security</h1>
+
+    <a href="{% url 'admin_dashboard' %}"
+       class="back-btn">
+        ← Admin Dashboard
+    </a>
+
+</header>
+
+
+<div class="container">
+
+    <div class="title">
+
+        <h2>Security Logs</h2>
+        <div class="log-actions">
+
+    <!-- DOWNLOAD -->
+
+    <a
+        href="{% url 'download_security_logs' %}"
+        class="download-btn"
+    >
+        📥 Download Logs
+    </a>
+
+
+    <!-- CLEAR -->
+
+    <form
+        method="POST"
+        action="{% url 'clear_security_logs' %}"
+        onsubmit="return confirm(
+            'Are you sure you want to permanently clear all security logs?'
+        );"
+    >
+
+        {% csrf_token %}
+
+        <button
+            type="submit"
+            class="clear-btn"
+        >
+            🗑️ Clear Logs
+        </button>
+
+    </form>
+
+</div>
+        <p>
+            Monitor authentication and account security events.
+        </p>
+
+    </div>
+
+
+    <!-- STATISTICS -->
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <span>Total Security Events</span>
+
+            <strong>
+                {{ total_events }}
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>Failed Logins</span>
+
+            <strong>
+                {{ failed_logins }}
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>Locked Accounts</span>
+
+            <strong>
+                {{ locked_accounts }}
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>Successful Logins</span>
+
+            <strong>
+                {{ successful_logins }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- SECURITY LOG TABLE -->
+
+    <div class="log-card">
+
+        <h3>Recent Security Events</h3>
+
+        <div class="table-wrapper">
+
+            {% if logs %}
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>User</th>
+
+                        <th>Event</th>
+
+                        <th>Description</th>
+
+                        <th>Date & Time</th>
+                         <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for log in logs %}
+
+                    <tr>
+    <td>{{ log.user.username }}</td>
+
+    <td>
+        {{ log.event }}
+    </td>
+
+    <td>
+        {{ log.description }}
+    </td>
+
+    <td>
+        {{ log.created_at }}
+    </td>
+
+    <td>
+
+
+    {% if log.user %}
+
+        {% if log.user.is_superuser %}
+
+            <span>Administrator</span>
+
+        {% elif log.event == "ACCOUNT_LOCKED" %}
+
+            <form
+                method="POST"
+                action="{% url 'admin_unlock_user' log.user.id %}"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="unlock-btn"
+                    onclick="return confirm('Unlock {{ log.user.username }}?')"
+                >
+                    🔓 Unlock
+                </button>
+
+            </form>
+
+        {% elif log.event == "ACCOUNT_UNLOCKED" %}
+
+            <form
+                method="POST"
+                action="{% url 'admin_lock_user' log.user.id %}"
+                class="lock-form"
+            >
+
+                {% csrf_token %}
+
+                <select name="duration">
+                    <option value="1">1 hour</option>
+                    <option value="6">6 hours</option>
+                    <option value="12">12 hours</option>
+                    <option value="24">24 hours</option>
+                </select>
+
+                <button
+                    type="submit"
+                    class="lock-btn"
+                    onclick="return confirm('Lock {{ log.user.username }}?')"
+                >
+                    🔒 Lock
+                </button>
+
+            </form>
+
+        {% elif log.event == "FAILED_LOGIN" or log.event == "SUSPICIOUS_ACTIVITY" or log.event == "PASSWORD_CHANGED"%}
+
+            <form
+                method="POST"
+                action="{% url 'admin_lock_user' log.user.id %}"
+                class="lock-form"
+            >
+
+                {% csrf_token %}
+
+                <select name="duration">
+                    <option value="1">1 hour</option>
+                    <option value="6">6 hours</option>
+                    <option value="12">12 hours</option>
+                    <option value="24">24 hours</option>
+                </select>
+
+                <button
+                    type="submit"
+                    class="lock-btn"
+                    onclick="return confirm('Lock {{ log.user.username }}?')"
+                >
+                    🔒 Lock
+                </button>
+
+            </form>
+
+        {% else %}
+
+            <span>—</span>
+
+        {% endif %}
+
+    {% else %}
+
+        <span>System Event</span>
+
+    {% endif %}
+
+</td>
+</tr>
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <div class="empty">
+
+                🛡️
+
+                <br><br>
+
+                No security events recorded yet.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

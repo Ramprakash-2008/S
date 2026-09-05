@@ -1,0 +1,22 @@
+from django.core.mail import EmailMessage
+
+
+def send_encrypted_file(
+    recipient_email,
+    file_path,
+    filename
+):
+
+    email = EmailMessage(
+        subject="SecureCrypt - Encrypted File",
+        body=(
+            "Hello,\n\n"
+            "An encrypted file has been shared with you.\n\n"
+            "Use SecureCrypt and the correct password to decrypt it."
+        ),
+        to=[recipient_email]
+    )
+
+    email.attach_file(file_path)
+
+    email.send()

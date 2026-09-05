@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Pending Approvals - SecureCrypt</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #17233c;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            background: #1d2a41;
+            color: white;
+            padding: 16px 32px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-btn,
+        .logout-btn {
+            text-decoration: none;
+            color: white;
+            padding: 9px 15px;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .back-btn {
+            background: #33445f;
+        }
+
+        .logout-btn {
+            background: #ef4444;
+        }
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .title {
+            margin-bottom: 25px;
+        }
+
+        .title h1 {
+            margin-bottom: 6px;
+            font-size: 30px;
+        }
+
+        .title p {
+            color: #60708d;
+        }
+
+        /* =========================
+           COUNT CARD
+        ========================= */
+
+        .count-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+
+            border-left: 4px solid #f59e0b;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .count-card span {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .count {
+            display: block;
+            margin-top: 8px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #17233c;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            overflow-x: auto;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e5eaf1;
+            font-size: 14px;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #475569;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+
+            background: #fff7ed;
+            color: #ea580c;
+
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .view {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .approve {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .reject {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-icon {
+            font-size: 45px;
+        }
+
+        .empty h2 {
+            margin: 15px 0 8px;
+        }
+
+        .empty p {
+            color: #64748b;
+        }
+        .button-actions {
+    margin-top: 12px;
+    width: 100%;
+}
+
+.back-btn {
+    display: inline-block;
+    padding: 9px 16px;
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.back-btn:hover {
+    background: #1d4ed8;
+}
+
+    </style>
+
+</head>
+
+<body>
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+
+    <div class="logo">
+        🔐 SecureCrypt
+    </div>
+
+    <div class="header-right">
+
+        
+        <a
+            href="{% url 'logout' %}"
+            class="logout-btn"
+        >
+            Logout
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<div class="container">
+
+    <div class="title">
+
+        <h1>
+            ⏳ Pending Approvals
+        </h1>
+
+        <p>
+            Review new SecureCrypt account registrations.
+        </p>
+
+    </div>
+
+
+    <!-- COUNT -->
+
+    <div class="count-card">
+
+        <span>
+            Users Waiting for Approval
+        </span>
+
+        <span class="count">
+            {{ pending_count }}
+        </span>
+
+    </div>
+
+
+    <!-- =========================
+         PENDING USERS
+    ========================= -->
+
+    {% if pending_users %}
+
+        <div class="table-card">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Username</th>
+
+                        <th>Email</th>
+
+                        <th>Phone</th>
+
+                        <th>Joined</th>
+
+                        <th>Status</th>
+
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for user in pending_users %}
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    {{ user.username }}
+                                </strong>
+                            </td>
+
+                            <td>
+                                {{ user.email }}
+                            </td>
+
+                            <td>
+                                {{ user.phone }}
+                            </td>
+
+                            <td>
+                                {{ user.date_joined|date:"d M Y" }}
+                            </td>
+
+                            <td>
+
+                                <span class="status">
+                                    ● Pending
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <div class="actions">
+
+                                    <!-- VIEW -->
+
+                                    <a
+                                        href="{% url 'admin_user_detail' user.id %}"
+                                        class="btn view"
+                                    >
+                                        👁 View
+                                    </a>
+
+
+                                    <!-- APPROVE -->
+
+                                    <form
+                                        method="POST"
+                                        action="{% url 'approve_user' user.id %}"
+                                        style="display:inline;"
+                                    >
+
+                                        {% csrf_token %}
+
+                                        <button
+                                            type="submit"
+                                            class="btn approve"
+                                            onclick="return confirm('Approve {{ user.username }}?');"
+                                        >
+                                            ✓ Approve
+                                        </button>
+
+                                    </form>
+
+
+                                    <!-- REJECT -->
+
+                                    <form
+                                        method="POST"
+                                        action="{% url 'reject_user' user.id %}"
+                                        style="display:inline;"
+                                    >
+
+                                        {% csrf_token %}
+
+                                        <button
+                                            type="submit"
+                                            class="btn reject"
+                                            onclick="return confirm('Reject {{ user.username }}?');"
+                                        >
+                                            ✕ Reject
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% else %}
+
+        <div class="table-card">
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    🎉
+                </div>
+
+                <h2>
+                    No Pending Approvals
+                </h2>
+
+                <p>
+                    There are currently no users waiting for approval.
+                </p>
+
+            </div>
+            <div class="button-actions">
+    <a href="{% url 'admin_dashboard' %}" class="back-btn">
+        ← Back to Admin Dashboard
+    </a>
+</div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+</body>
+
+</html>
