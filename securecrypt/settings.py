@@ -137,17 +137,11 @@ TEMPLATES = [
 # DATABASE
 # ============================================================
 
-if DEBUG:
+# ============================================================
+# DATABASE
+# ============================================================
 
-    # Local development
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
-
-else:
+if os.environ.get("DB_HOST"):
 
     # Production PostgreSQL
     DATABASES = {
@@ -161,7 +155,15 @@ else:
         }
     }
 
+else:
 
+    # Local development
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 # ============================================================
 # PASSWORD VALIDATION
 # ============================================================
