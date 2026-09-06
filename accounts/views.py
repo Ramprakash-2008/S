@@ -2731,20 +2731,25 @@ def decrypt_file_view(request):
             # FIND THE ORIGINAL FILE RECORD
             # ------------------------------------------------
             
-            normalized_name = uploaded_file.name
+            
 
 # Convert spaces and parentheses similarly to stored filename
-            normalized_name = normalized_name.replace(" ", "_")
-            normalized_name = normalized_name.replace("(", "")
-            normalized_name = normalized_name.replace(")", "")
+           # ------------------------------------------------
+# FIND THE ORIGINAL FILE RECORD USING HASH
+# ------------------------------------------------
+
+            encrypted_data = uploaded_file.read()
+
+            file_hash = hashlib.sha256(
+    encrypted_data
+            ).hexdigest()
 
             encrypted_record = EncryptedFile.objects.filter(
-    encrypted_file__endswith=normalized_name,
+    encrypted_file_hash=file_hash,
     is_deleted=False
-).select_related(
-    "owner"
-).first()
-
+            ).select_related(
+            "owner"
+            ).first()
             # ------------------------------------------------
             # FILE BELONGS TO ANOTHER USER
             # ------------------------------------------------
