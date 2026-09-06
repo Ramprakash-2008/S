@@ -1,6 +1,7 @@
 from datetime import timedelta
 import csv
 import json
+import hashlib
 from functools import wraps
 import os
 import re
@@ -2575,6 +2576,13 @@ def encrypt_file_view(request):
                 encrypted_name,
                 ContentFile(encrypted_data),
                 save=True
+            )
+            encrypted_file.encrypted_file_hash = hashlib.sha256(
+    encrypted_data
+            ).hexdigest()
+
+            encrypted_file.save(
+    update_fields=["encrypted_file_hash"]
             )
             # ==========================================
 # SECURITY LOG
