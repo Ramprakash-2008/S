@@ -91,37 +91,14 @@ def send_encrypted_file(
         )
 
     # Create email
-    email = EmailMessage(
-        subject="SecureCrypt - Encrypted File",
-
-        body=(
-            "Hello,\n\n"
-            "An encrypted file has been shared with you "
-            "through SecureCrypt.\n\n"
-            f"File: {filename}\n\n"
-            "The attached file is encrypted and requires "
-            "the correct password to decrypt it.\n\n"
-            "Please keep the password secure.\n\n"
-            "Regards,\n"
-            "SecureCrypt"
-        ),
-
-        from_email=settings.DEFAULT_FROM_EMAIL,
-
-        to=[recipient_email]
-    )
-
-    # Attach encrypted file
-    email.attach_file(
-        file_path,
-        mimetype="application/octet-stream"
-    )
-
-    # Send email
-    email.send(
-        fail_silently=False
-    )
-
+   send_brevo_email(
+    recipient_email=recipient_email,
+    subject=subject,
+    html_content=html_content,
+    text_content=text_content,
+    attachment_path=file_path,
+    attachment_name=filename,
+)
     return True
 def send_notification_email(
     recipient_email,
