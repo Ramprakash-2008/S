@@ -108,10 +108,12 @@ class AdminActivityLog(models.Model):
 class SecurityLog(models.Model):
 
     EVENT_CHOICES = [
-        ("FAILED_LOGIN", "Failed Login"),
-        ("ACCOUNT_LOCKED", "Account Locked"),
-        ("SUCCESSFUL_LOGIN", "Successful Login"),
-    ]
+    ("FAILED_LOGIN", "Failed Login"),
+    ("ACCOUNT_LOCKED", "Account Locked"),
+    ("SUCCESSFUL_LOGIN", "Successful Login"),
+    ("SUSPICIOUS_ACTIVITY", "Suspicious Activity"),
+    ("FILE_DECRYPTED", "File Decrypted"),
+]
 
     user = models.ForeignKey(
         CustomUser,
