@@ -89,7 +89,16 @@ def send_encrypted_file(
         raise FileNotFoundError(
             f"Encrypted file not found: {file_path}"
         )
+    subject = "Your SecureCrypt Encrypted File"
 
+    html_content = """
+    <h2>SecureCrypt</h2>
+    <p>Your encrypted file is attached to this email.</p>
+    """
+
+    text_content = (
+        "Your SecureCrypt encrypted file is attached."
+    )
     # Create email
     send_brevo_email(
     recipient_email=recipient_email,
