@@ -3,7 +3,62 @@ from django.conf import settings
 import os
 from django.core.mail import send_mail
 from django.conf import settings
+import base64
+import requests
+def send_brevo_email(
+    recipient_email,
+    subject,
+    html_content,
+    text_content=None,
+    attachment_path=None,
+    attachment_name=None
+):
+    url = "https://api.brevo.com/v3/smtp/email"
 
+    headers = {
+        "accept": "application/json",
+        "api-key": os.environ.get("BREVO_API_KEY"),
+        "content-type": "application/json",
+    }
+
+    data = {
+        "sender": {
+            "name": os.environ.get("BREVO_SENDER_NAME", "SecureCrypt"),
+            "email": os.environ.get("BREVO_SENDER_EMAIL"),
+        },
+        "to": [
+            {
+                "email": recipient_email
+            }
+        ],
+        "subject": subject,
+        "htmlContent": html_content,
+    }
+
+    if text_content:
+        data["textContent"] = text_content
+
+    if attachment_path:
+        with open(attachment_path, "rb") as f:
+            encoded_file = base64.b64encode(f.read()).decode("utf-8")
+
+        data["attachment"] = [
+            {
+                "content": encoded_file,
+                "name": attachment_name or os.path.basename(attachment_path),
+            }
+        ]
+
+    response = requests.post(
+        url,
+        headers=headers,
+        json=data,
+        timeout=20
+    )
+
+    response.raise_for_status()
+
+    return response.json()
 def send_encrypted_file(
     recipient_email,
     file_path,
