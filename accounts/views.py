@@ -2846,7 +2846,7 @@ def decrypt_file_view(request):
             # OWNER VERIFIED → ALLOW DECRYPTION
             # ------------------------------------------------
 
-            encrypted_data = uploaded_file.read()
+           
 
             decrypted_data = decrypt_file(
                 encrypted_data,
