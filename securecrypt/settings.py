@@ -7,7 +7,8 @@ Production-ready configuration.
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-
+import base64
+import requests
 # ============================================================
 # BASE DIRECTORY
 # ============================================================
