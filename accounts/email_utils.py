@@ -91,7 +91,7 @@ def send_encrypted_file(
         )
 
     # Create email
-        send_brevo_email(
+    send_brevo_email(
     recipient_email=recipient_email,
     subject=subject,
     html_content=html_content,
