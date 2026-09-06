@@ -17,6 +17,7 @@ class CustomUser(AbstractUser):
         max_length=15,
         unique=True
     )
+    REQUIRED_FIELDS = ["email", "phone"]
     security_alerts = models.BooleanField(default=True)
 
     file_expiry_alerts = models.BooleanField(default=True)
