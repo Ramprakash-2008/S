@@ -2744,7 +2744,7 @@ def decrypt_file_view(request):
         "Please upload a valid .enc or .enc.bin encrypted file."
     )
 
-    return render(
+            return render(
         request,
         "accounts/decrypt.html"
     )
