@@ -56,8 +56,8 @@ def send_brevo_email(
         timeout=20
     )
     if not response.ok:
-    print("BREVO STATUS:", response.status_code)
-    print("BREVO RESPONSE:", response.text)
+        print("BREVO STATUS:", response.status_code)
+        print("BREVO RESPONSE:", response.text)
 
 
     response.raise_for_status()
