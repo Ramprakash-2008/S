@@ -784,13 +784,45 @@ SecureCrypt Security Team
 # ============================================================
     
 @login_required
+@login_required
 def dashboard_view(request):
+
+    now = timezone.now()
+
+    total_files = EncryptedFile.objects.filter(
+        owner=request.user,
+        is_deleted=False
+    ).count()
+
+    encrypted_files = EncryptedFile.objects.filter(
+        owner=request.user,
+        is_deleted=False
+    ).count()
+
+    expiring_soon = EncryptedFile.objects.filter(
+        owner=request.user,
+        is_deleted=False,
+        expires_at__isnull=False,
+        expires_at__gt=now,
+        expires_at__lte=now + timedelta(days=1)
+    ).count()
+
+    security_events = SecurityLog.objects.filter(
+        user=request.user
+    ).count()
+
+    context = {
+        "total_files": total_files,
+        "encrypted_files": encrypted_files,
+        "expiring_soon": expiring_soon,
+        "security_events": security_events,
+    }
 
     return render(
         request,
-        "accounts/dashboard.html"
+        "accounts/dashboard.html",
+        context
     )
-
 
 # ============================================================
 # ADMIN - FILE MANAGEMENT
