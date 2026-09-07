@@ -2647,10 +2647,10 @@ def encrypt_file_view(request):
 
             try:
 
-                email_sent = send_encrypted_file(
-                    recipient_email,
-                    encrypted_file.encrypted_file.path,
-                    encrypted_name
+               email_sent = send_encrypted_file(
+                recipient_email,
+                encrypted_file.encrypted_file.path,
+                encrypted_name + ".bin"
                 )
 
             except Exception as email_error:
@@ -2733,17 +2733,21 @@ def decrypt_file_view(request):
                 "accounts/decrypt.html"
             )
 
-        if not uploaded_file.name.lower().endswith(".enc"):
+        filename = uploaded_file.name.lower()
 
+        if not (
+    filename.endswith(".enc") or
+    filename.endswith(".enc.bin")
+        ):
             messages.error(
-                request,
-                "Please upload a valid .enc encrypted file."
-            )
+        request,
+        "Please upload a valid .enc or .enc.bin encrypted file."
+    )
 
-            return render(
-                request,
-                "accounts/decrypt.html"
-            )
+    return render(
+        request,
+        "accounts/decrypt.html"
+    )
 
         if not password:
 
