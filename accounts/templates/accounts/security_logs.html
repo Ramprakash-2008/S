@@ -914,29 +914,14 @@
 
         <!-- Filter UI for now -->
 
-        <select class="filter">
+        <select class="filter" id="eventFilter">
+    <option value="all">All Events</option>
+    <option value="login">Login</option>
+    <option value="encryption">Encryption</option>
+    <option value="decryption">Decryption</option>
+    <option value="password">Password</option>
+</select>
 
-            <option>
-                All Events
-            </option>
-
-            <option>
-                Login
-            </option>
-
-            <option>
-                Encryption
-            </option>
-
-            <option>
-                Decryption
-            </option>
-
-            <option>
-                Password
-            </option>
-
-        </select>
 
     </div>
 
@@ -947,7 +932,7 @@
 
     {% for log in logs %}
 
-        <div class="log-item">
+       <div class="log-item" data-event="{{ log.event_type }}">
 
 
             <!-- ICON -->
