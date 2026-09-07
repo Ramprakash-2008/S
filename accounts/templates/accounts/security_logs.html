@@ -1064,44 +1064,47 @@ document.addEventListener("DOMContentLoaded", function () {
 
     filter.addEventListener("change", function () {
 
-        const selected = this.value;
+        const selected = this.value.toLowerCase();
 
         logs.forEach(function (log) {
 
-            const eventType = log.dataset.event;
+            const eventType = log.dataset.event.toLowerCase();
 
             let show = false;
 
+            // ALL
             if (selected === "all") {
                 show = true;
             }
 
+            // LOGIN
             else if (selected === "login") {
                 show =
-                    eventType === "SUCCESSFUL_LOGIN" ||
-                    eventType === "FAILED_LOGIN" ||
-                    eventType === "ACCOUNT_LOCKED" ||
-                    eventType === "ACCOUNT_UNLOCKED";
+                    eventType.includes("login") ||
+                    eventType.includes("locked") ||
+                    eventType.includes("unlock");
             }
 
+            // ENCRYPTION
             else if (selected === "encryption") {
-                show =
-                    eventType === "FILE_ENCRYPTED";
+                show = eventType.includes("encrypt");
             }
 
+            // DECRYPTION
             else if (selected === "decryption") {
-                show =
-                    eventType === "FILE_DECRYPTED";
+                show = eventType.includes("decrypt");
             }
 
+            // PASSWORD
             else if (selected === "password") {
                 show =
-                    eventType === "PASSWORD_CHANGED" ||
-                    eventType === "PASSWORD_RESET";
+                    eventType.includes("password") ||
+                    eventType.includes("reset");
             }
 
             log.style.display = show ? "grid" : "none";
         });
+
     });
 
 });
