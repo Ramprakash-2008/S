@@ -2650,7 +2650,7 @@ def encrypt_file_view(request):
                email_sent = send_encrypted_file(
                 recipient_email,
                 encrypted_file.encrypted_file.path,
-                encrypted_name + ".bin"
+                encrypted_name + ".dat"
                 )
 
             except Exception as email_error:
@@ -2737,11 +2737,11 @@ def decrypt_file_view(request):
 
         if not (
     filename.endswith(".enc") or
-    filename.endswith(".enc.bin")
+    filename.endswith(".enc.dat")
         ):
             messages.error(
         request,
-        "Please upload a valid .enc or .enc.bin encrypted file."
+        "Please upload a valid .enc or .enc.dat encrypted file."
     )
 
             return render(
