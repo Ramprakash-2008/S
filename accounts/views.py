@@ -48,17 +48,20 @@ from reportlab.platypus import Table, TableStyle
 from encryption import decrypt_file, encrypt_file
 
 from .email_utils import (
+    send_brevo_email,
+    send_encrypted_file,
+    send_notification_email,
     send_account_locked_email,
     send_account_unlocked_email,
-    send_encrypted_file,
-    send_new_registration_admin_email,
-    send_notification_email,
     send_registration_success_email,
-    send_suspicious_activity_email,
+    send_new_registration_admin_email,
     send_user_approved_email,
+    send_user_rejected_email,
     send_user_deactivated_email,
     send_user_deleted_email,
-    send_user_rejected_email,
+    send_suspicious_activity_email,
+    send_password_reset_email,
+    send_password_changed_email,
 )
 from .models import (
     AdminActivityLog,
