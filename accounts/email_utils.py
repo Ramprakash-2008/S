@@ -917,38 +917,17 @@ SecureCrypt Security Team
 # PASSWORD RESET
 # ============================================================
 
-def send_password_reset_email(
-    user,
-    reset_url
-):
+def send_password_reset_email(user, reset_url):
 
     if not user.email:
         return False
 
     subject = "SecureCrypt - Password Reset Request"
 
-    message = f"""
-Hello {user.username},
-
-We received a request to reset your SecureCrypt account password.
-
-Use the secure link below to create a new password:
-
-{reset_url}
-
-If you did not request this password reset,
-you can safely ignore this email.
-
-For your security, do not share this link with anyone.
-
-SecureCrypt Security Team
-"""
-
     html_content = f"""
     <html>
     <body>
-
-        <h2>SecureCrypt - Password Reset</h2>
+        <h2>SecureCrypt Password Reset</h2>
 
         <p>Hello {user.username},</p>
 
@@ -958,13 +937,12 @@ SecureCrypt Security Team
         </p>
 
         <p>
-            Click the secure link below to create
-            a new password:
+            Click the button below to create a new password:
         </p>
 
         <p>
             <a href="{reset_url}">
-                Reset Password
+                Reset My Password
             </a>
         </p>
 
@@ -974,30 +952,37 @@ SecureCrypt Security Team
         </p>
 
         <p>
-            For your security, do not share this link
-            with anyone.
+            For your security, do not share this link with anyone.
         </p>
-
-        <br>
 
         <p>
             SecureCrypt Security Team
         </p>
-
     </body>
     </html>
     """
 
-    send_brevo_email(
+    text_content = f"""
+Hello {user.username},
+
+We received a request to reset your SecureCrypt account password.
+
+Reset your password using this link:
+
+{reset_url}
+
+If you did not request this password reset, you can safely ignore this email.
+
+SecureCrypt Security Team
+"""
+
+    return send_brevo_email(
         recipient_email=user.email,
         subject=subject,
         html_content=html_content,
-        text_content=message
+        text_content=text_content,
+        disable_tracking=True,
     )
-
-    return True
-
-
 # ============================================================
 # PASSWORD CHANGED
 # ============================================================
