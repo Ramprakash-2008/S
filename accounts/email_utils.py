@@ -14,7 +14,8 @@ def send_brevo_email(
     html_content,
     text_content=None,
     attachment_path=None,
-    attachment_name=None
+    attachment_name=None,
+    disable_tracking=False,
 ):
     """
     Central Brevo email sender.
@@ -63,7 +64,10 @@ def send_brevo_email(
 
     if text_content:
         data["textContent"] = text_content
-
+    if disable_tracking:
+    data["headers"] = {
+        "X-Mailin-trackclicks": "0"
+    }
     # ---------------------------------------------------------
     # OPTIONAL ATTACHMENT
     # ---------------------------------------------------------
