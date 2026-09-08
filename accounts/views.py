@@ -136,7 +136,7 @@ def admin_security_logs_view(request):
     # IMPORTANT:
     # Count users currently locked,
     # NOT the number of ACCOUNT_LOCKED logs.
-    locked_accounts = User.objects.filter(
+    locked_accounts = CustomUser.objects.filter(
         locked_until__isnull=False,
         locked_until__gt=current_time
     ).count()
