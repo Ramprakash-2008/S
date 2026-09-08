@@ -65,7 +65,7 @@ def send_brevo_email(
     if text_content:
         data["textContent"] = text_content
     if disable_tracking:
-    data["headers"] = {
+        data["headers"] = {
         "X-Mailin-trackclicks": "0"
     }
     # ---------------------------------------------------------
