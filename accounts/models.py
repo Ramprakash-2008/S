@@ -112,6 +112,7 @@ class SecurityLog(models.Model):
     ("ACCOUNT_LOCKED", "Account Locked"),
     ("SUCCESSFUL_LOGIN", "Successful Login"),
     ("SUSPICIOUS_ACTIVITY", "Suspicious Activity"),
+    ("FILE_ENCRYPTED", "File Encrypted"),
     ("FILE_DECRYPTED", "File Decrypted"),
 ]
 
