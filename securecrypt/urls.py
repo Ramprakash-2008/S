@@ -35,7 +35,7 @@ from accounts.views import (
     download_activity_logs,
     admin_security_logs_view,
     admin_lock_user_view,
-    unlock_user_view,
+    admin_unlock_user,
     clear_security_logs,
     download_security_logs,
     admin_delete_user_view,
