@@ -228,10 +228,10 @@ path(
 
 
     path(
-    "admin-users/<int:user_id>/unlock/",
-    unlock_user_view,
-    name="unlock_user"
-    ),
+    "admin/unlock-user/<int:user_id>/",
+    admin_unlock_user_view,
+    name="admin_unlock_user"
+),
     # =========================================================
     # ADMIN USER MANAGEMENT
     # =========================================================
