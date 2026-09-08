@@ -1527,7 +1527,7 @@ def log_admin_action(admin, action, target):
         target=target
     )
 @login_required
-def admin_unlock_user(request, user_id):
+def admin_unlock_user_view(request, user_id):
 
     if not request.user.is_staff:
         messages.error(
