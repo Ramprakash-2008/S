@@ -92,69 +92,84 @@ def admin_required(view_func):
 
     return wrapper
 @login_required
+@login_required
 def admin_security_logs_view(request):
 
-    if not request.user.is_staff:
-        messages.error(
+    try:
+        print("========== ADMIN SECURITY LOGS ==========")
+        print("USER:", request.user)
+        print("IS STAFF:", request.user.is_staff)
+
+        if not request.user.is_staff:
+            messages.error(
+                request,
+                "You do not have permission to access security logs."
+            )
+            return redirect("dashboard")
+
+        current_time = timezone.now()
+
+        logs = SecurityLog.objects.select_related(
+            "user"
+        ).order_by(
+            "-created_at"
+        )
+
+        print("LOG COUNT:", logs.count())
+
+        for log in logs:
+
+            if log.user is not None:
+                log.is_currently_locked = (
+                    log.user.locked_until is not None
+                    and log.user.locked_until > current_time
+                )
+            else:
+                log.is_currently_locked = False
+
+        total_events = SecurityLog.objects.count()
+
+        failed_logins = SecurityLog.objects.filter(
+            event="FAILED_LOGIN"
+        ).count()
+
+        successful_logins = SecurityLog.objects.filter(
+            event="SUCCESSFUL_LOGIN"
+        ).count()
+
+        locked_accounts = CustomUser.objects.filter(
+            locked_until__isnull=False,
+            locked_until__gt=current_time
+        ).count()
+
+        context = {
+            "logs": logs,
+            "total_events": total_events,
+            "failed_logins": failed_logins,
+            "successful_logins": successful_logins,
+            "locked_accounts": locked_accounts,
+        }
+
+        print("CONTEXT CREATED")
+        print("========================================")
+
+        return render(
             request,
-            "You do not have permission to access security logs."
+            "accounts/admin_security_logs.html",
+            context
         )
-        return redirect("dashboard")
 
-    current_time = timezone.now()
+    except Exception as e:
 
-    logs = SecurityLog.objects.select_related(
-        "user"
-    ).order_by(
-        "-created_at"
-    )
+        print("!!!!!!!! ADMIN SECURITY LOG ERROR !!!!!!!!")
+        print("ERROR:", repr(e))
 
-    # Add current lock status to every log
-    for log in logs:
+        import traceback
+        traceback.print_exc()
 
-        if log.user is not None:
-            log.is_currently_locked = (
-            log.user.locked_until is not None
-            and log.user.locked_until > current_time
-        )
-        else:
-            log.is_currently_locked = False
-    # ------------------------------------------
-    # SECURITY STATISTICS
-    # ------------------------------------------
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
-    total_events = SecurityLog.objects.count()
-
-    failed_logins = SecurityLog.objects.filter(
-        event="FAILED_LOGIN"
-    ).count()
-
-    successful_logins = SecurityLog.objects.filter(
-        event="SUCCESSFUL_LOGIN"
-    ).count()
-
-    # IMPORTANT:
-    # Count users currently locked,
-    # NOT the number of ACCOUNT_LOCKED logs.
-    locked_accounts = CustomUser.objects.filter(
-        locked_until__isnull=False,
-        locked_until__gt=current_time
-    ).count()
-
-    context = {
-        "logs": logs,
-        "total_events": total_events,
-        "failed_logins": failed_logins,
-        "locked_accounts": locked_accounts,
-        "successful_logins": successful_logins,
-    }
-
-    return render(
-        request,
-        "accounts/admin_security_logs.html",
-        context
-    )
-
+        raise
 @admin_required
 def admin_delete_user_view(request, user_id):
 
