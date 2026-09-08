@@ -1,19 +1,12 @@
 import os
 import base64
-import html
 import requests
 
-
-# ============================================================
-# BREVO CONFIGURATION
-# ============================================================
-
-BREVO_API_URL = "https://api.brevo.com/v3/smtp/email"
+from django.conf import settings
 
 
-# ============================================================
-# COMMON BREVO EMAIL FUNCTION
-# ============================================================
+BREVO_URL = "https://api.brevo.com/v3/smtp/email"
+
 
 def send_brevo_email(
     recipient_email,
@@ -24,64 +17,32 @@ def send_brevo_email(
     attachment_name=None
 ):
     """
-    Central email-sending function.
+    Central Brevo email sender.
 
-    Every SecureCrypt email function uses this function.
+    All SecureCrypt emails should use this function.
     """
 
-    # --------------------------------------------------------
-    # VALIDATE RECIPIENT
-    # --------------------------------------------------------
-
     if not recipient_email:
-        raise ValueError(
-            "Recipient email address is required."
-        )
+        raise ValueError("Recipient email address is required.")
 
-    # --------------------------------------------------------
-    # GET BREVO ENVIRONMENT VARIABLES
-    # --------------------------------------------------------
-
-    api_key = os.environ.get(
-        "BREVO_API_KEY"
-    )
-
-    sender_email = os.environ.get(
-        "BREVO_SENDER_EMAIL"
-    )
-
+    api_key = os.environ.get("BREVO_API_KEY")
+    sender_email = os.environ.get("BREVO_SENDER_EMAIL")
     sender_name = os.environ.get(
         "BREVO_SENDER_NAME",
         "SecureCrypt"
     )
 
-    # --------------------------------------------------------
-    # VALIDATE BREVO CONFIGURATION
-    # --------------------------------------------------------
-
     if not api_key:
-        raise ValueError(
-            "BREVO_API_KEY is not configured."
-        )
+        raise ValueError("BREVO_API_KEY is not configured.")
 
     if not sender_email:
-        raise ValueError(
-            "BREVO_SENDER_EMAIL is not configured."
-        )
-
-    # --------------------------------------------------------
-    # HEADERS
-    # --------------------------------------------------------
+        raise ValueError("BREVO_SENDER_EMAIL is not configured.")
 
     headers = {
         "accept": "application/json",
         "api-key": api_key,
         "content-type": "application/json",
     }
-
-    # --------------------------------------------------------
-    # EMAIL DATA
-    # --------------------------------------------------------
 
     data = {
         "sender": {
@@ -100,16 +61,12 @@ def send_brevo_email(
         "htmlContent": html_content,
     }
 
-    # --------------------------------------------------------
-    # TEXT CONTENT
-    # --------------------------------------------------------
-
     if text_content:
         data["textContent"] = text_content
 
-    # --------------------------------------------------------
-    # ATTACHMENT
-    # --------------------------------------------------------
+    # ---------------------------------------------------------
+    # OPTIONAL ATTACHMENT
+    # ---------------------------------------------------------
 
     if attachment_path:
 
@@ -118,10 +75,7 @@ def send_brevo_email(
                 f"Attachment not found: {attachment_path}"
             )
 
-        with open(
-            attachment_path,
-            "rb"
-        ) as file:
+        with open(attachment_path, "rb") as file:
 
             encoded_file = base64.b64encode(
                 file.read()
@@ -133,47 +87,26 @@ def send_brevo_email(
 
                 "name": (
                     attachment_name
-                    or os.path.basename(
-                        attachment_path
-                    )
+                    or os.path.basename(attachment_path)
                 ),
             }
         ]
 
-    # --------------------------------------------------------
-    # SEND TO BREVO
-    # --------------------------------------------------------
+    # ---------------------------------------------------------
+    # SEND THROUGH BREVO
+    # ---------------------------------------------------------
 
     response = requests.post(
-        BREVO_API_URL,
+        BREVO_URL,
         headers=headers,
         json=data,
         timeout=20
     )
 
-    # --------------------------------------------------------
-    # LOG BREVO RESPONSE
-    # --------------------------------------------------------
-
-    print(
-        "BREVO STATUS:",
-        response.status_code
-    )
-
-    print(
-        "BREVO RESPONSE:",
-        response.text
-    )
-
-    # --------------------------------------------------------
-    # RAISE ERROR IF BREVO REJECTS REQUEST
-    # --------------------------------------------------------
+    print("BREVO STATUS:", response.status_code)
+    print("BREVO RESPONSE:", response.text)
 
     response.raise_for_status()
-
-    # --------------------------------------------------------
-    # RETURN BREVO RESPONSE
-    # --------------------------------------------------------
 
     return response.json()
 
@@ -203,29 +136,33 @@ def send_encrypted_file(
             f"Encrypted file not found: {file_path}"
         )
 
-    subject = (
-        "Your SecureCrypt Encrypted File"
-    )
+    subject = "SecureCrypt - Encrypted File"
 
-    html_content = """
+    html_content = f"""
     <html>
     <body>
 
         <h2>SecureCrypt</h2>
 
+        <p>Your encrypted file has been created successfully.</p>
+
         <p>
-            Your encrypted file is attached
-            to this email.
+            <strong>File:</strong> {filename}
+        </p>
+
+        <p>
+            The encrypted file is attached to this email.
         </p>
 
         <p>
             Keep your decryption password safe.
-            You will need it to decrypt the file.
         </p>
+
+        <br>
 
         <p>
             Regards,<br>
-            <strong>SecureCrypt Security Team</strong>
+            SecureCrypt Security Team
         </p>
 
     </body>
@@ -233,22 +170,16 @@ def send_encrypted_file(
     """
 
     text_content = (
-        "Your SecureCrypt encrypted file "
-        "is attached to this email.\n\n"
-        "Keep your decryption password safe."
+        f"Your SecureCrypt encrypted file '{filename}' "
+        "is attached to this email."
     )
 
     send_brevo_email(
         recipient_email=recipient_email,
-
         subject=subject,
-
         html_content=html_content,
-
         text_content=text_content,
-
         attachment_path=file_path,
-
         attachment_name=filename,
     )
 
@@ -256,7 +187,7 @@ def send_encrypted_file(
 
 
 # ============================================================
-# NORMAL NOTIFICATION EMAIL
+# GENERIC NOTIFICATION EMAIL
 # ============================================================
 
 def send_notification_email(
@@ -266,13 +197,7 @@ def send_notification_email(
 ):
 
     if not recipient_email:
-        raise ValueError(
-            "Recipient email address is required."
-        )
-
-    safe_message = html.escape(
-        message
-    )
+        return False
 
     html_content = f"""
     <html>
@@ -280,13 +205,13 @@ def send_notification_email(
 
         <h2>SecureCrypt</h2>
 
-        <p>
-            {safe_message}
-        </p>
+        <p>{message}</p>
+
+        <br>
 
         <p>
             Regards,<br>
-            <strong>SecureCrypt Security Team</strong>
+            SecureCrypt Security Team
         </p>
 
     </body>
@@ -295,215 +220,9 @@ def send_notification_email(
 
     send_brevo_email(
         recipient_email=recipient_email,
-
         subject=subject,
-
         html_content=html_content,
-
-        text_content=message,
-    )
-
-    return True
-
-
-# ============================================================
-# PASSWORD RESET EMAIL
-# ============================================================
-
-def send_password_reset_email(
-    user,
-    reset_url
-):
-
-    if not user.email:
-        return False
-
-    username = html.escape(
-        user.username
-    )
-
-    safe_reset_url = html.escape(
-        reset_url,
-        quote=True
-    )
-
-    subject = (
-        "SecureCrypt Password Reset Request"
-    )
-
-    text_content = f"""
-Hello {user.username},
-
-We received a request to reset your
-SecureCrypt account password.
-
-Click the secure link below to create
-a new password:
-
-{reset_url}
-
-If you did not request this password reset,
-you can safely ignore this email.
-
-For your security, do not share this link
-with anyone.
-
-SecureCrypt Security Team
-"""
-
-    html_content = f"""
-    <html>
-    <body>
-
-        <h2>SecureCrypt</h2>
-
-        <p>
-            Hello {username},
-        </p>
-
-        <p>
-            We received a request to reset your
-            SecureCrypt account password.
-        </p>
-
-        <p>
-            Click the button below to create
-            a new password:
-        </p>
-
-        <p>
-            <a
-                href="{safe_reset_url}"
-                style="
-                    display:inline-block;
-                    padding:12px 20px;
-                    background:#2563eb;
-                    color:white;
-                    text-decoration:none;
-                    border-radius:6px;
-                "
-            >
-                Reset Password
-            </a>
-        </p>
-
-        <p>
-            If you did not request this password reset,
-            you can safely ignore this email.
-        </p>
-
-        <p>
-            For your security, do not share this link
-            with anyone.
-        </p>
-
-        <p>
-            Regards,<br>
-            <strong>SecureCrypt Security Team</strong>
-        </p>
-
-    </body>
-    </html>
-    """
-
-    send_brevo_email(
-        recipient_email=user.email,
-
-        subject=subject,
-
-        html_content=html_content,
-
-        text_content=text_content,
-    )
-
-    return True
-
-
-# ============================================================
-# PASSWORD CHANGED EMAIL
-# ============================================================
-
-def send_password_changed_email(
-    user
-):
-
-    if not user.email:
-        return False
-
-    username = html.escape(
-        user.username
-    )
-
-    subject = (
-        "Security Alert: "
-        "Your SecureCrypt Password Was Changed"
-    )
-
-    text_content = f"""
-Hello {user.username},
-
-Your SecureCrypt account password was
-successfully changed.
-
-If you changed your password,
-no further action is required.
-
-If you DID NOT change your password,
-your account may be compromised.
-
-Please contact the SecureCrypt administrator
-immediately so your account can be secured.
-
-SecureCrypt Security Team
-"""
-
-    html_content = f"""
-    <html>
-    <body>
-
-        <h2>SecureCrypt Security Alert</h2>
-
-        <p>
-            Hello {username},
-        </p>
-
-        <p>
-            Your SecureCrypt account password was
-            <strong>successfully changed.</strong>
-        </p>
-
-        <p>
-            If you changed your password,
-            no further action is required.
-        </p>
-
-        <p>
-            If you <strong>DID NOT</strong> change
-            your password, your account may be compromised.
-        </p>
-
-        <p>
-            Please contact the SecureCrypt administrator
-            immediately so your account can be secured.
-        </p>
-
-        <p>
-            Regards,<br>
-            <strong>SecureCrypt Security Team</strong>
-        </p>
-
-    </body>
-    </html>
-    """
-
-    send_brevo_email(
-        recipient_email=user.email,
-
-        subject=subject,
-
-        html_content=html_content,
-
-        text_content=text_content,
+        text_content=message
     )
 
     return True
@@ -522,23 +241,12 @@ def send_account_locked_email(
     if not user.email:
         return False
 
-    username = html.escape(
-        user.username
-    )
+    subject = "SecureCrypt - Account Locked"
 
-    safe_reason = html.escape(
-        reason
-    )
-
-    subject = (
-        "SecureCrypt - Account Locked"
-    )
-
-    text_content = f"""
+    message = f"""
 Hello {user.username},
 
-Your SecureCrypt account has been
-temporarily locked.
+Your SecureCrypt account has been temporarily locked.
 
 Reason:
 {reason}
@@ -546,11 +254,9 @@ Reason:
 Lock duration:
 {hours} hour(s)
 
-Your account will be available again
-after the lock period expires.
+Your account will be available again after the lock period expires.
 
-If you did not expect this action,
-please contact the administrator.
+If you did not expect this action, please contact the administrator.
 
 Regards,
 SecureCrypt Security Team
@@ -560,20 +266,17 @@ SecureCrypt Security Team
     <html>
     <body>
 
-        <h2>SecureCrypt</h2>
+        <h2>SecureCrypt - Account Locked</h2>
+
+        <p>Hello {user.username},</p>
 
         <p>
-            Hello {username},
-        </p>
-
-        <p>
-            Your SecureCrypt account has been
-            <strong>temporarily locked.</strong>
+            Your SecureCrypt account has been temporarily locked.
         </p>
 
         <p>
             <strong>Reason:</strong><br>
-            {safe_reason}
+            {reason}
         </p>
 
         <p>
@@ -582,13 +285,20 @@ SecureCrypt Security Team
         </p>
 
         <p>
-            Your account will be available again
-            after the lock period expires.
+            Your account will be available again after
+            the lock period expires.
         </p>
 
         <p>
+            If you did not expect this action,
+            please contact the administrator.
+        </p>
+
+        <br>
+
+        <p>
             Regards,<br>
-            <strong>SecureCrypt Security Team</strong>
+            SecureCrypt Security Team
         </p>
 
     </body>
@@ -597,12 +307,9 @@ SecureCrypt Security Team
 
     send_brevo_email(
         recipient_email=user.email,
-
         subject=subject,
-
         html_content=html_content,
-
-        text_content=text_content,
+        text_content=message
     )
 
     return True
@@ -620,19 +327,9 @@ def send_account_unlocked_email(
     if not user.email:
         return False
 
-    username = html.escape(
-        user.username
-    )
+    subject = "SecureCrypt - Account Unlocked"
 
-    safe_reason = html.escape(
-        reason
-    )
-
-    subject = (
-        "SecureCrypt - Account Unlocked"
-    )
-
-    text_content = f"""
+    message = f"""
 Hello {user.username},
 
 Your SecureCrypt account has been unlocked.
@@ -640,11 +337,9 @@ Your SecureCrypt account has been unlocked.
 Reason:
 {reason}
 
-You can now log in and use your
-SecureCrypt account normally.
+You can now log in and use your SecureCrypt account normally.
 
-If you did not expect this action,
-please contact the administrator immediately.
+If you did not expect this action, please contact the administrator immediately.
 
 Regards,
 SecureCrypt Security Team
@@ -654,20 +349,17 @@ SecureCrypt Security Team
     <html>
     <body>
 
-        <h2>SecureCrypt</h2>
+        <h2>SecureCrypt - Account Unlocked</h2>
+
+        <p>Hello {user.username},</p>
 
         <p>
-            Hello {username},
-        </p>
-
-        <p>
-            Your SecureCrypt account has been
-            <strong>unlocked.</strong>
+            Your SecureCrypt account has been unlocked.
         </p>
 
         <p>
             <strong>Reason:</strong><br>
-            {safe_reason}
+            {reason}
         </p>
 
         <p>
@@ -676,8 +368,15 @@ SecureCrypt Security Team
         </p>
 
         <p>
+            If you did not expect this action,
+            please contact the administrator immediately.
+        </p>
+
+        <br>
+
+        <p>
             Regards,<br>
-            <strong>SecureCrypt Security Team</strong>
+            SecureCrypt Security Team
         </p>
 
     </body>
@@ -686,12 +385,9 @@ SecureCrypt Security Team
 
     send_brevo_email(
         recipient_email=user.email,
-
         subject=subject,
-
         html_content=html_content,
-
-        text_content=text_content,
+        text_content=message
     )
 
     return True
@@ -701,36 +397,23 @@ SecureCrypt Security Team
 # REGISTRATION SUCCESS
 # ============================================================
 
-def send_registration_success_email(
-    user
-):
+def send_registration_success_email(user):
 
     if not user.email:
         return False
 
-    username = html.escape(
-        user.username
-    )
+    subject = "SecureCrypt - Registration Successful"
 
-    subject = (
-        "SecureCrypt - Registration Successful"
-    )
-
-    text_content = f"""
+    message = f"""
 Hello {user.username},
 
-Your SecureCrypt account has been
-successfully registered.
+Your SecureCrypt account has been successfully registered.
 
-Your account is currently waiting
-for administrator approval.
+Your account is currently waiting for administrator approval.
 
-You will be able to log in and use
-SecureCrypt once your account has
-been approved.
+You will be able to log in and use SecureCrypt once your account has been approved.
 
-Please do not share your password
-with anyone.
+Please do not share your password with anyone.
 
 Regards,
 SecureCrypt Security Team
@@ -740,36 +423,33 @@ SecureCrypt Security Team
     <html>
     <body>
 
-        <h2>SecureCrypt</h2>
+        <h2>SecureCrypt - Registration Successful</h2>
+
+        <p>Hello {user.username},</p>
 
         <p>
-            Hello {username},
+            Your SecureCrypt account has been successfully registered.
         </p>
 
         <p>
-            Your SecureCrypt account has been
-            <strong>successfully registered.</strong>
+            Your account is currently waiting for
+            administrator approval.
         </p>
 
         <p>
-            Your account is currently waiting
-            for administrator approval.
+            You will be able to log in and use SecureCrypt
+            once your account has been approved.
         </p>
 
         <p>
-            You will be able to log in and use
-            SecureCrypt once your account has
-            been approved.
+            Please do not share your password with anyone.
         </p>
 
-        <p>
-            Please do not share your password
-            with anyone.
-        </p>
+        <br>
 
         <p>
             Regards,<br>
-            <strong>SecureCrypt Security Team</strong>
+            SecureCrypt Security Team
         </p>
 
     </body>
@@ -778,12 +458,9 @@ SecureCrypt Security Team
 
     send_brevo_email(
         recipient_email=user.email,
-
         subject=subject,
-
         html_content=html_content,
-
-        text_content=text_content,
+        text_content=message
     )
 
     return True
@@ -793,65 +470,39 @@ SecureCrypt Security Team
 # NEW REGISTRATION → ADMIN
 # ============================================================
 
-def send_new_registration_admin_email(
-    user
-):
+def send_new_registration_admin_email(user):
 
-    admin_email = os.environ.get(
-        "BREVO_ADMIN_EMAIL"
-    )
-
-    if not admin_email:
-
-        admin_email = os.environ.get(
-            "BREVO_SENDER_EMAIL"
-        )
+    admin_email = settings.DEFAULT_FROM_EMAIL
 
     if not admin_email:
         return False
 
-    username = html.escape(
-        user.username
-    )
+    subject = "SecureCrypt - New User Registration"
 
-    user_email = html.escape(
-        user.email
-    )
+    message = f"""
+Hello Administrator,
 
-    phone = html.escape(
-        user.phone
-    )
+A new user has registered on SecureCrypt
+and is waiting for approval.
 
-    subject = (
-        "SecureCrypt - New User Registration"
-    )
+Username: {user.username}
+Email: {user.email}
+Phone: {user.phone}
 
-    text_content = (
-        "Hello Administrator,\n\n"
+Please log in to the SecureCrypt Admin Dashboard
+to review and approve or reject this registration.
 
-        "A new user has registered on SecureCrypt "
-        "and is waiting for approval.\n\n"
-
-        f"Username: {user.username}\n"
-        f"Email: {user.email}\n"
-        f"Phone: {user.phone}\n\n"
-
-        "Please log in to the SecureCrypt Admin Dashboard "
-        "to review and approve or reject this registration.\n\n"
-
-        "Regards,\n"
-        "SecureCrypt Security System"
-    )
+Regards,
+SecureCrypt Security System
+"""
 
     html_content = f"""
     <html>
     <body>
 
-        <h2>SecureCrypt</h2>
+        <h2>SecureCrypt - New User Registration</h2>
 
-        <p>
-            Hello Administrator,
-        </p>
+        <p>Hello Administrator,</p>
 
         <p>
             A new user has registered on SecureCrypt
@@ -859,26 +510,21 @@ def send_new_registration_admin_email(
         </p>
 
         <p>
-            <strong>Username:</strong>
-            {username}
-            <br>
-
-            <strong>Email:</strong>
-            {user_email}
-            <br>
-
-            <strong>Phone:</strong>
-            {phone}
+            <strong>Username:</strong> {user.username}<br>
+            <strong>Email:</strong> {user.email}<br>
+            <strong>Phone:</strong> {user.phone}
         </p>
 
         <p>
-            Please log in to the SecureCrypt
-            Admin Dashboard to review this registration.
+            Please log in to the SecureCrypt Admin Dashboard
+            to review this registration.
         </p>
+
+        <br>
 
         <p>
             Regards,<br>
-            <strong>SecureCrypt Security System</strong>
+            SecureCrypt Security System
         </p>
 
     </body>
@@ -887,12 +533,9 @@ def send_new_registration_admin_email(
 
     send_brevo_email(
         recipient_email=admin_email,
-
         subject=subject,
-
         html_content=html_content,
-
-        text_content=text_content,
+        text_content=message
     )
 
     return True
@@ -902,31 +545,21 @@ def send_new_registration_admin_email(
 # USER APPROVED
 # ============================================================
 
-def send_user_approved_email(
-    user
-):
+def send_user_approved_email(user):
 
     if not user.email:
         return False
 
-    username = html.escape(
-        user.username
-    )
+    subject = "SecureCrypt - Account Approved"
 
-    subject = (
-        "SecureCrypt - Account Approved"
-    )
-
-    text_content = f"""
+    message = f"""
 Hello {user.username},
 
 Good news!
 
-Your SecureCrypt account has been
-approved by the administrator.
+Your SecureCrypt account has been approved by the administrator.
 
-You can now log in to SecureCrypt
-and use the available features.
+You can now log in to SecureCrypt and use the available features.
 
 Please keep your account credentials secure.
 
@@ -938,33 +571,29 @@ SecureCrypt Security Team
     <html>
     <body>
 
-        <h2>SecureCrypt</h2>
+        <h2>SecureCrypt - Account Approved</h2>
+
+        <p>Hello {user.username},</p>
 
         <p>
-            Hello {username},
+            Good news! Your SecureCrypt account has been
+            approved by the administrator.
         </p>
 
         <p>
-            Good news!
-        </p>
-
-        <p>
-            Your SecureCrypt account has been
-            <strong>approved.</strong>
-        </p>
-
-        <p>
-            You can now log in to SecureCrypt
-            and use the available features.
+            You can now log in to SecureCrypt and use
+            the available features.
         </p>
 
         <p>
             Please keep your account credentials secure.
         </p>
 
+        <br>
+
         <p>
             Regards,<br>
-            <strong>SecureCrypt Security Team</strong>
+            SecureCrypt Security Team
         </p>
 
     </body>
@@ -973,12 +602,9 @@ SecureCrypt Security Team
 
     send_brevo_email(
         recipient_email=user.email,
-
         subject=subject,
-
         html_content=html_content,
-
-        text_content=text_content,
+        text_content=message
     )
 
     return True
@@ -988,33 +614,21 @@ SecureCrypt Security Team
 # USER REJECTED
 # ============================================================
 
-def send_user_rejected_email(
-    user
-):
+def send_user_rejected_email(user):
 
     if not user.email:
         return False
 
-    username = html.escape(
-        user.username
-    )
+    subject = "SecureCrypt - Account Registration Update"
 
-    subject = (
-        "SecureCrypt - Account Registration Update"
-    )
-
-    text_content = f"""
+    message = f"""
 Hello {user.username},
 
-We are writing to inform you that your
-SecureCrypt account registration has
-been rejected by the administrator.
+We are writing to inform you that your SecureCrypt account registration has been rejected by the administrator.
 
-You currently cannot log in to SecureCrypt
-using this account.
+You currently cannot log in to SecureCrypt using this account.
 
-If you believe this was a mistake,
-please contact the SecureCrypt administrator.
+If you believe this was a mistake, please contact the SecureCrypt administrator.
 
 Regards,
 SecureCrypt Security Team
@@ -1024,16 +638,13 @@ SecureCrypt Security Team
     <html>
     <body>
 
-        <h2>SecureCrypt</h2>
+        <h2>SecureCrypt - Registration Update</h2>
+
+        <p>Hello {user.username},</p>
 
         <p>
-            Hello {username},
-        </p>
-
-        <p>
-            We are writing to inform you that your
-            SecureCrypt account registration has
-            been <strong>rejected.</strong>
+            Your SecureCrypt account registration has been
+            rejected by the administrator.
         </p>
 
         <p>
@@ -1046,9 +657,11 @@ SecureCrypt Security Team
             please contact the SecureCrypt administrator.
         </p>
 
+        <br>
+
         <p>
             Regards,<br>
-            <strong>SecureCrypt Security Team</strong>
+            SecureCrypt Security Team
         </p>
 
     </body>
@@ -1057,12 +670,9 @@ SecureCrypt Security Team
 
     send_brevo_email(
         recipient_email=user.email,
-
         subject=subject,
-
         html_content=html_content,
-
-        text_content=text_content,
+        text_content=message
     )
 
     return True
@@ -1072,32 +682,21 @@ SecureCrypt Security Team
 # USER DEACTIVATED
 # ============================================================
 
-def send_user_deactivated_email(
-    user
-):
+def send_user_deactivated_email(user):
 
     if not user.email:
         return False
 
-    username = html.escape(
-        user.username
-    )
+    subject = "SecureCrypt - Account Deactivated"
 
-    subject = (
-        "SecureCrypt - Account Deactivated"
-    )
-
-    text_content = f"""
+    message = f"""
 Hello {user.username},
 
-Your SecureCrypt account has been
-deactivated by the administrator.
+Your SecureCrypt account has been deactivated by the administrator.
 
-You will not be able to access your account
-while it is deactivated.
+You will not be able to access your account while it is deactivated.
 
-If you believe this action was taken by mistake,
-please contact the SecureCrypt administrator.
+If you believe this action was taken by mistake, please contact the SecureCrypt administrator.
 
 Regards,
 SecureCrypt Security Team
@@ -1107,32 +706,30 @@ SecureCrypt Security Team
     <html>
     <body>
 
-        <h2>SecureCrypt</h2>
+        <h2>SecureCrypt - Account Deactivated</h2>
+
+        <p>Hello {user.username},</p>
 
         <p>
-            Hello {username},
+            Your SecureCrypt account has been deactivated
+            by the administrator.
         </p>
 
         <p>
-            Your SecureCrypt account has been
-            <strong>deactivated</strong> by
-            the administrator.
+            You will not be able to access your account
+            while it is deactivated.
         </p>
 
         <p>
-            You will not be able to access your
-            account while it is deactivated.
+            If you believe this action was taken by mistake,
+            please contact the SecureCrypt administrator.
         </p>
 
-        <p>
-            If you believe this action was taken
-            by mistake, please contact the
-            SecureCrypt administrator.
-        </p>
+        <br>
 
         <p>
             Regards,<br>
-            <strong>SecureCrypt Security Team</strong>
+            SecureCrypt Security Team
         </p>
 
     </body>
@@ -1141,12 +738,9 @@ SecureCrypt Security Team
 
     send_brevo_email(
         recipient_email=user.email,
-
         subject=subject,
-
         html_content=html_content,
-
-        text_content=text_content,
+        text_content=message
     )
 
     return True
@@ -1156,33 +750,21 @@ SecureCrypt Security Team
 # USER DELETED
 # ============================================================
 
-def send_user_deleted_email(
-    user
-):
+def send_user_deleted_email(user):
 
     if not user.email:
         return False
 
-    username = html.escape(
-        user.username
-    )
+    subject = "SecureCrypt - Account Deleted"
 
-    subject = (
-        "SecureCrypt - Account Deleted"
-    )
-
-    text_content = f"""
+    message = f"""
 Hello {user.username},
 
-Your SecureCrypt account has been
-deleted by the administrator.
+Your SecureCrypt account has been deleted by the administrator.
 
-You will no longer be able to log in
-or access this SecureCrypt account.
+You will no longer be able to log in or access this SecureCrypt account.
 
-If you believe this action was taken
-by mistake, please contact the
-SecureCrypt administrator.
+If you believe this action was taken by mistake, please contact the SecureCrypt administrator.
 
 Regards,
 SecureCrypt Security Team
@@ -1192,31 +774,30 @@ SecureCrypt Security Team
     <html>
     <body>
 
-        <h2>SecureCrypt</h2>
+        <h2>SecureCrypt - Account Deleted</h2>
+
+        <p>Hello {user.username},</p>
 
         <p>
-            Hello {username},
+            Your SecureCrypt account has been deleted
+            by the administrator.
         </p>
 
         <p>
-            Your SecureCrypt account has been
-            <strong>deleted</strong> by the administrator.
+            You will no longer be able to log in or access
+            this SecureCrypt account.
         </p>
 
         <p>
-            You will no longer be able to log in
-            or access this SecureCrypt account.
+            If you believe this action was taken by mistake,
+            please contact the SecureCrypt administrator.
         </p>
 
-        <p>
-            If you believe this action was taken
-            by mistake, please contact the
-            SecureCrypt administrator.
-        </p>
+        <br>
 
         <p>
             Regards,<br>
-            <strong>SecureCrypt Security Team</strong>
+            SecureCrypt Security Team
         </p>
 
     </body>
@@ -1225,12 +806,9 @@ SecureCrypt Security Team
 
     send_brevo_email(
         recipient_email=user.email,
-
         subject=subject,
-
         html_content=html_content,
-
-        text_content=text_content,
+        text_content=message
     )
 
     return True
@@ -1249,57 +827,37 @@ def send_suspicious_activity_email(
     if not owner.email:
         return False
 
-    owner_username = html.escape(
-        owner.username
-    )
+    subject = "SecureCrypt - Suspicious Activity Detected"
 
-    attempted_username = html.escape(
-        attempted_by.username
-    )
+    message = f"""
+Hello {owner.username},
 
-    safe_filename = html.escape(
-        filename
-    )
+We detected suspicious activity involving one of your encrypted files.
 
-    subject = (
-        "SecureCrypt - Suspicious Activity Detected"
-    )
+File:
+{filename}
 
-    text_content = (
-        f"Hello {owner.username},\n\n"
+Attempted by account:
+{attempted_by.username}
 
-        "We detected suspicious activity involving "
-        "one of your encrypted files.\n\n"
+Another account attempted to decrypt a file belonging to you.
 
-        f"File: {filename}\n"
-        f"Attempted by account: "
-        f"{attempted_by.username}\n\n"
+The decryption attempt was blocked by SecureCrypt.
 
-        "Another account attempted to decrypt a file "
-        "belonging to you. The attempt was blocked "
-        "by SecureCrypt.\n\n"
+If you recognize this activity, no action is required.
+Otherwise, please review your account security.
 
-        "If you recognize this activity, no action is "
-        "required. Otherwise, please review your "
-        "account security.\n\n"
-
-        "Regards,\n"
-        "SecureCrypt Security Team"
-    )
+Regards,
+SecureCrypt Security Team
+"""
 
     html_content = f"""
     <html>
     <body>
 
-        <h2>SecureCrypt Security Alert</h2>
+        <h2>⚠ SecureCrypt - Suspicious Activity</h2>
 
-        <h3>
-            Suspicious Activity Detected
-        </h3>
-
-        <p>
-            Hello {owner_username},
-        </p>
+        <p>Hello {owner.username},</p>
 
         <p>
             We detected suspicious activity involving
@@ -1307,29 +865,34 @@ def send_suspicious_activity_email(
         </p>
 
         <p>
-            <strong>File:</strong>
-            {safe_filename}
-            <br>
+            <strong>File:</strong><br>
+            {filename}
+        </p>
 
-            <strong>Attempted by account:</strong>
-            {attempted_username}
+        <p>
+            <strong>Attempted by account:</strong><br>
+            {attempted_by.username}
         </p>
 
         <p>
             Another account attempted to decrypt a file
-            belonging to you. The attempt was blocked
-            by SecureCrypt.
+            belonging to you.
         </p>
 
         <p>
-            If you recognize this activity, no action is
-            required. Otherwise, please review your
-            account security.
+            The decryption attempt was blocked by SecureCrypt.
         </p>
+
+        <p>
+            If you recognize this activity, no action is required.
+            Otherwise, please review your account security.
+        </p>
+
+        <br>
 
         <p>
             Regards,<br>
-            <strong>SecureCrypt Security Team</strong>
+            SecureCrypt Security Team
         </p>
 
     </body>
@@ -1338,12 +901,173 @@ def send_suspicious_activity_email(
 
     send_brevo_email(
         recipient_email=owner.email,
-
         subject=subject,
-
         html_content=html_content,
+        text_content=message
+    )
 
-        text_content=text_content,
+    return True
+
+
+# ============================================================
+# PASSWORD RESET
+# ============================================================
+
+def send_password_reset_email(
+    user,
+    reset_url
+):
+
+    if not user.email:
+        return False
+
+    subject = "SecureCrypt - Password Reset Request"
+
+    message = f"""
+Hello {user.username},
+
+We received a request to reset your SecureCrypt account password.
+
+Use the secure link below to create a new password:
+
+{reset_url}
+
+If you did not request this password reset,
+you can safely ignore this email.
+
+For your security, do not share this link with anyone.
+
+SecureCrypt Security Team
+"""
+
+    html_content = f"""
+    <html>
+    <body>
+
+        <h2>SecureCrypt - Password Reset</h2>
+
+        <p>Hello {user.username},</p>
+
+        <p>
+            We received a request to reset your
+            SecureCrypt account password.
+        </p>
+
+        <p>
+            Click the secure link below to create
+            a new password:
+        </p>
+
+        <p>
+            <a href="{reset_url}">
+                Reset Password
+            </a>
+        </p>
+
+        <p>
+            If you did not request this password reset,
+            you can safely ignore this email.
+        </p>
+
+        <p>
+            For your security, do not share this link
+            with anyone.
+        </p>
+
+        <br>
+
+        <p>
+            SecureCrypt Security Team
+        </p>
+
+    </body>
+    </html>
+    """
+
+    send_brevo_email(
+        recipient_email=user.email,
+        subject=subject,
+        html_content=html_content,
+        text_content=message
+    )
+
+    return True
+
+
+# ============================================================
+# PASSWORD CHANGED
+# ============================================================
+
+def send_password_changed_email(user):
+
+    if not user.email:
+        return False
+
+    subject = (
+        "SecureCrypt - Password Changed"
+    )
+
+    message = f"""
+Hello {user.username},
+
+Your SecureCrypt account password was successfully changed.
+
+If you changed your password, no further action is required.
+
+If you DID NOT change your password,
+your account may be compromised.
+
+Please contact the SecureCrypt administrator immediately
+so your account can be secured.
+
+SecureCrypt Security Team
+"""
+
+    html_content = f"""
+    <html>
+    <body>
+
+        <h2>SecureCrypt Security Alert</h2>
+
+        <p>Hello {user.username},</p>
+
+        <p>
+            Your SecureCrypt account password was
+            successfully changed.
+        </p>
+
+        <p>
+            If you changed your password,
+            no further action is required.
+        </p>
+
+        <p>
+            <strong>
+                If you DID NOT change your password,
+                your account may be compromised.
+            </strong>
+        </p>
+
+        <p>
+            Please contact the SecureCrypt administrator
+            immediately so your account can be secured.
+        </p>
+
+        <br>
+
+        <p>
+            SecureCrypt Security Team
+        </p>
+
+    </body>
+    </html>
+    """
+
+    send_brevo_email(
+        recipient_email=user.email,
+        subject=subject,
+        html_content=html_content,
+        text_content=message
     )
 
     return True
