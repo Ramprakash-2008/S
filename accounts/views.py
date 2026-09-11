@@ -2126,21 +2126,21 @@ def activate_user_view(request, user_id):
         ]
     )
     try:
-    send_user_approved_email(user)
+        send_user_approved_email(user)
 
-    print(
+        print(
         "RE-ACTIVATION APPROVAL EMAIL SENT:",
         user.email
     )
 
     except Exception as email_error:
 
-    print(
+        print(
         "RE-ACTIVATION APPROVAL EMAIL ERROR:",
         repr(email_error)
     )
 
-    messages.warning(
+        messages.warning(
         request,
         f"{user.username} was activated, "
         "but the approval email could not be sent."
