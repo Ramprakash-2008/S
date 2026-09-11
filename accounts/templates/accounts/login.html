@@ -266,30 +266,40 @@ input {
         box-shadow 0.25s ease,
         background 0.25s ease;
 }
-.back-home {
-    display: inline-block;
-    margin-bottom: 20px;
+<style>
+    .login-btn,
+    .home-btn {
+        width: 100%;
+        height: 55px;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        box-sizing: border-box;
+    }
 
-    padding: 9px 16px;
+    .login-btn {
+        border: none;
+        background: linear-gradient(90deg, #2563eb, #4f46e5);
+        color: white;
+        cursor: pointer;
+    }
 
-    color: #9db2ca;
-    background: transparent;
+    .home-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+        border: 1px solid #31527a;
+        background: transparent;
+        color: #b9c7dc;
+        text-decoration: none;
+    }
 
-    border: 1px solid #31506f;
-    border-radius: 8px;
-
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
-
-    transition: 0.2s ease;
-}
-
-.back-home:hover {
-    color: #ffffff;
-    background: #162941;
-    border-color: #46709b;
-}
+    .home-btn:hover {
+        background: #16243a;
+        color: white;
+    }
+</style>
 input::placeholder {
     color: #64748b;
 }
@@ -635,7 +645,7 @@ input:focus {
             >
                 🔐 Login Securely
             </button>
-        <a href="{% url 'home' %}" class="back-home">
+       <a href="{% url 'home' %}" class="home-btn">
     ← Back to Home
 </a>
         </form>
