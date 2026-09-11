@@ -1,0 +1,777 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecureCrypt</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    min-height: 100vh;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:
+        linear-gradient(
+            180deg,
+            #081526 0%,
+            #071321 50%,
+            #050f1c 100%
+        );
+
+    color: #ffffff;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* =========================================
+   TOP BAR
+========================================= */
+
+.topbar {
+
+    height: 78px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 48px;
+
+    background: #101e30;
+
+    border-bottom: 1px solid #263b55;
+}
+
+
+/* =========================================
+   BRAND
+========================================= */
+
+.brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    text-decoration: none;
+
+    color: #ffffff;
+
+    font-size: 22px;
+
+    font-weight: 700;
+}
+
+
+.brand-logo {
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #2563eb;
+
+    border-radius: 10px;
+
+    font-size: 21px;
+
+    box-shadow:
+        0 4px 15px rgba(37, 99, 235, 0.25);
+}
+
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+.nav-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+.nav-actions a {
+
+    text-decoration: none;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    padding: 10px 20px;
+
+    border-radius: 8px;
+
+    transition: 0.2s ease;
+}
+
+
+/* LOGIN */
+
+.login-btn {
+
+    color: #c7d8ed;
+
+    border: 1px solid #31506f;
+
+    background: transparent;
+}
+
+
+.login-btn:hover {
+
+    background: #162941;
+
+    border-color: #46709b;
+
+}
+
+
+/* REGISTER */
+
+.register-btn {
+
+    color: white;
+
+    background: #2563eb;
+
+    border: 1px solid #3474ef;
+}
+
+
+.register-btn:hover {
+
+    background: #1d55ca;
+
+}
+
+
+/* =========================================
+   HERO
+========================================= */
+
+.hero {
+
+    flex: 1;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    padding: 60px 20px;
+}
+
+
+.hero-content {
+
+    width: 100%;
+
+    max-width: 900px;
+}
+
+
+/* =========================================
+   HERO LOGO
+========================================= */
+
+.hero-logo {
+
+    width: 82px;
+
+    height: 82px;
+
+    margin: 0 auto 25px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 38px;
+
+    background: #122942;
+
+    border: 1px solid #315477;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.25);
+}
+
+
+/* =========================================
+   HEADING
+========================================= */
+
+.hero h1 {
+
+    font-size: 52px;
+
+    line-height: 1.1;
+
+    font-weight: 700;
+
+    letter-spacing: -1px;
+
+    margin-bottom: 5px;
+}
+
+
+.hero h2 {
+
+    font-size: 32px;
+
+    font-weight: 600;
+
+    color: #3b82f6;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.description {
+
+    max-width: 720px;
+
+    margin: 0 auto 32px;
+
+    color: #9db2ca;
+
+    font-size: 17px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   ENCRYPT BUTTON
+========================================= */
+
+.encrypt-btn {
+
+    display: inline-block;
+
+    text-decoration: none;
+
+    color: #ffffff;
+
+    background: #2563eb;
+
+    border: 1px solid #3474ef;
+
+    padding: 15px 32px;
+
+    border-radius: 8px;
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    transition: 0.2s ease;
+
+    box-shadow:
+        0 8px 25px rgba(37, 99, 235, 0.20);
+}
+
+
+.encrypt-btn:hover {
+
+    background: #1d55ca;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 30px rgba(37, 99, 235, 0.28);
+}
+
+
+/* =========================================
+   FEATURES
+========================================= */
+
+.features {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 18px;
+
+    margin-top: 65px;
+}
+
+
+.feature {
+
+    background: #101e30;
+
+    border: 1px solid #263f5b;
+
+    border-radius: 12px;
+
+    padding: 25px 20px;
+
+    text-align: left;
+
+    transition: 0.2s ease;
+}
+
+
+.feature:hover {
+
+    border-color: #38658d;
+
+    transform: translateY(-2px);
+}
+
+
+.feature-icon {
+
+    font-size: 23px;
+
+    margin-bottom: 14px;
+}
+
+
+.feature h3 {
+
+    font-size: 17px;
+
+    margin-bottom: 8px;
+}
+
+
+.feature p {
+
+    color: #91a7bf;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer {
+
+    text-align: center;
+
+    padding: 18px;
+
+    color: #647991;
+
+    font-size: 13px;
+
+    border-top: 1px solid #1d3047;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .topbar {
+
+        padding: 0 20px;
+
+        height: 70px;
+    }
+
+
+    .brand {
+
+        font-size: 18px;
+    }
+
+
+    .brand-logo {
+
+        width: 38px;
+
+        height: 38px;
+    }
+
+
+    .nav-actions {
+
+        gap: 6px;
+    }
+
+
+    .nav-actions a {
+
+        padding: 8px 12px;
+
+        font-size: 13px;
+    }
+
+
+    .hero {
+
+        padding: 45px 20px;
+    }
+
+
+    .hero h1 {
+
+        font-size: 38px;
+    }
+
+
+    .hero h2 {
+
+        font-size: 25px;
+    }
+
+
+    .description {
+
+        font-size: 15px;
+    }
+
+
+    .features {
+
+        grid-template-columns: 1fr;
+
+        margin-top: 45px;
+    }
+
+}
+</style>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header class="topbar">
+
+    <a href="{% url 'home' %}" class="brand">
+
+        <div class="brand-logo">
+            🔐
+        </div>
+
+        <span>SecureCrypt</span>
+
+    </a>
+
+
+    <div class="nav-actions">
+
+        <a href="{% url 'login' %}" class="login-btn">
+            Login
+        </a>
+
+        <a href="{% url 'register' %}" class="register-btn">
+            Register
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="hero">
+
+    <div class="hero-content">
+
+        <div class="hero-logo">
+            🔐
+        </div>
+
+
+        <h1>
+            Secure Your Files
+        </h1>
+
+        <h2>
+            With SecureCrypt
+        </h2>
+
+
+        <p class="description">
+
+            SecureCrypt is a secure file encryption platform designed
+            to protect your files using encryption, controlled access,
+            security monitoring and secure file management.
+
+        </p>
+
+
+        <a href="{% url 'login' %}" class="encrypt-btn">
+            🔒 Encrypt a File
+        </a>
+
+
+        <!-- ================= FEATURES ================= -->
+
+        <div class="features">
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    🔐
+                </div>
+
+                <h3>
+                    Encryption
+                </h3>
+
+                <p>
+                    Protect sensitive files with secure encryption.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    🛡️
+                </div>
+
+                <h3>
+                    Access Control
+                </h3>
+
+                <p>
+                    Only authorized users can access protected files.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    📊
+                </div>
+
+                <h3>
+                    Security Monitoring
+                </h3>
+
+                <p>
+                    Monitor important security events and activity.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    © 2026 SecureCrypt
+
+</footer>
+
+
+</body>
+</html>{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecureCrypt</title>
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header class="topbar">
+
+    <a href="{% url 'home' %}" class="brand">
+
+        <div class="brand-logo">
+            🔐
+        </div>
+
+        <span>SecureCrypt</span>
+
+    </a>
+
+
+    <div class="nav-actions">
+
+        <a href="{% url 'login' %}" class="login-btn">
+            Login
+        </a>
+
+        <a href="{% url 'register' %}" class="register-btn">
+            Register
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="hero">
+
+    <div class="hero-content">
+
+        <div class="hero-logo">
+            🔐
+        </div>
+
+
+        <h1>
+            Secure Your Files
+        </h1>
+
+        <h2>
+            With SecureCrypt
+        </h2>
+
+
+        <p class="description">
+
+            SecureCrypt is a secure file encryption platform designed
+            to protect your files using encryption, controlled access,
+            security monitoring and secure file management.
+
+        </p>
+
+
+        <a href="{% url 'login' %}" class="encrypt-btn">
+            🔒 Encrypt a File
+        </a>
+
+
+        <!-- ================= FEATURES ================= -->
+
+        <div class="features">
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    🔐
+                </div>
+
+                <h3>
+                    Encryption
+                </h3>
+
+                <p>
+                    Protect sensitive files with secure encryption.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    🛡️
+                </div>
+
+                <h3>
+                    Access Control
+                </h3>
+
+                <p>
+                    Only authorized users can access protected files.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    📊
+                </div>
+
+                <h3>
+                    Security Monitoring
+                </h3>
+
+                <p>
+                    Monitor important security events and activity.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    © 2026 SecureCrypt
+
+</footer>
+
+
+</body>
+</html>
