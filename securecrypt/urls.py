@@ -5,6 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import RedirectView
 from django.contrib.auth import views as auth_views
+from accounts.views import home_view
 from accounts.views import (
     admin_user_detail_view,
     deactivate_user_view,
@@ -58,6 +59,7 @@ urlpatterns = [
     views.notifications,
     name="notifications"
 ),
+    path("", home_view, name="home"),
 path(
     "security-logs/",
     views.user_security_logs_view,
@@ -74,11 +76,7 @@ path(
     views.reset_password_view,
     name="reset_password"
 ),
-    path(
-        "",
-        RedirectView.as_view(pattern_name="login"),
-        name="home"
-    ),
+    
     path(
     "admin-users/<int:user_id>/delete/",
     views.admin_delete_user_view,
