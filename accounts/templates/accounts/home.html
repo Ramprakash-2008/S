@@ -1,497 +1,874 @@
-
 {% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SecureCrypt</title>
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    <title>SecureCrypt - Secure File Protection</title>
 
 
-body {
-    min-height: 100vh;
+    <style>
 
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
 
-    background:
-        linear-gradient(
-            180deg,
-            #081526 0%,
-            #071321 50%,
-            #050f1c 100%
-        );
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    color: #ffffff;
+        html {
+            scroll-behavior: smooth;
+        }
 
-    display: flex;
-    flex-direction: column;
-}
+        body {
+            font-family: Arial, Helvetica, sans-serif;
 
+            background:
+                linear-gradient(
+                    180deg,
+                    #071525 0%,
+                    #081522 45%,
+                    #06111f 100%
+                );
 
-/* =========================================
-   TOP BAR
-========================================= */
+            color: #ffffff;
 
-.topbar {
+            line-height: 1.6;
+        }
 
-    height: 78px;
 
-    display: flex;
+        a {
+            text-decoration: none;
+        }
 
-    align-items: center;
 
-    justify-content: space-between;
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
 
-    padding: 0 48px;
+        .navbar {
 
-    background: #101e30;
+            height: 78px;
 
-    border-bottom: 1px solid #263b55;
-}
+            display: flex;
 
+            align-items: center;
 
-/* =========================================
-   BRAND
-========================================= */
+            justify-content: space-between;
 
-.brand {
+            padding: 0 55px;
 
-    display: flex;
+            background: #101e30;
 
-    align-items: center;
+            border-bottom: 1px solid #263b55;
 
-    gap: 13px;
+            position: sticky;
 
-    text-decoration: none;
+            top: 0;
 
-    color: #ffffff;
+            z-index: 1000;
+        }
 
-    font-size: 22px;
 
-    font-weight: 700;
-}
+        .brand {
 
+            display: flex;
 
-.brand-logo {
+            align-items: center;
 
-    width: 42px;
-    height: 42px;
+            gap: 13px;
 
-    display: flex;
+            color: #ffffff;
 
-    align-items: center;
+            font-size: 22px;
 
-    justify-content: center;
+            font-weight: 700;
+        }
 
-    background: #2563eb;
 
-    border-radius: 10px;
+        .brand-logo {
 
-    font-size: 21px;
+            width: 42px;
+            height: 42px;
 
-    box-shadow:
-        0 4px 15px rgba(37, 99, 235, 0.25);
-}
+            display: flex;
 
+            align-items: center;
 
-/* =========================================
-   NAVIGATION
-========================================= */
+            justify-content: center;
 
-.nav-actions {
+            background: #2563eb;
 
-    display: flex;
+            border-radius: 10px;
 
-    align-items: center;
+            font-size: 22px;
+        }
 
-    gap: 12px;
-}
 
+        .nav-right {
 
-.nav-actions a {
+            display: flex;
 
-    text-decoration: none;
+            align-items: center;
 
-    font-size: 15px;
+            gap: 12px;
+        }
 
-    font-weight: 600;
 
-    padding: 10px 20px;
+        .nav-btn {
 
-    border-radius: 8px;
+            padding: 9px 20px;
 
-    transition: 0.2s ease;
-}
+            border-radius: 8px;
 
+            font-size: 15px;
 
-/* LOGIN */
+            font-weight: 600;
 
-.login-btn {
+            transition: 0.2s ease;
+        }
 
-    color: #c7d8ed;
 
-    border: 1px solid #31506f;
+        .login-btn {
 
-    background: transparent;
-}
+            color: #c7d8ed;
 
+            border: 1px solid #31506f;
 
-.login-btn:hover {
+            background: transparent;
+        }
 
-    background: #162941;
 
-    border-color: #46709b;
+        .login-btn:hover {
 
-}
+            color: #ffffff;
 
+            background: #162941;
 
-/* REGISTER */
+            border-color: #46709b;
+        }
 
-.register-btn {
 
-    color: white;
+        .register-btn {
 
-    background: #2563eb;
+            color: #ffffff;
 
-    border: 1px solid #3474ef;
-}
+            background: #2563eb;
 
+            border: 1px solid #3474ef;
+        }
 
-.register-btn:hover {
 
-    background: #1d55ca;
+        .register-btn:hover {
 
-}
+            background: #1d55ca;
+        }
 
 
-/* =========================================
-   HERO
-========================================= */
+        /* =====================================================
+           HERO
+        ===================================================== */
 
-.hero {
+        .hero {
 
-    flex: 1;
+            min-height: 650px;
 
-    display: flex;
+            display: flex;
 
-    justify-content: center;
+            justify-content: center;
 
-    align-items: center;
+            align-items: center;
 
-    text-align: center;
+            text-align: center;
 
-    padding: 60px 20px;
-}
+            padding: 90px 20px 80px;
 
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(37, 99, 235, 0.10),
+                    transparent 50%
+                );
+        }
 
-.hero-content {
 
-    width: 100%;
+        .hero-content {
 
-    max-width: 900px;
-}
+            max-width: 900px;
 
+            width: 100%;
+        }
 
-/* =========================================
-   HERO LOGO
-========================================= */
 
-.hero-logo {
+        .hero-icon {
 
-    width: 82px;
+            width: 90px;
 
-    height: 82px;
+            height: 90px;
 
-    margin: 0 auto 25px;
+            margin: 0 auto 28px;
 
-    display: flex;
+            display: flex;
 
-    align-items: center;
+            align-items: center;
 
-    justify-content: center;
+            justify-content: center;
 
-    font-size: 38px;
+            background: #122942;
 
-    background: #122942;
+            border: 1px solid #315477;
 
-    border: 1px solid #315477;
+            border-radius: 20px;
 
-    border-radius: 20px;
+            font-size: 42px;
 
-    box-shadow:
-        0 10px 35px rgba(0, 0, 0, 0.25);
-}
+            box-shadow:
+                0 12px 35px rgba(0, 0, 0, 0.30);
+        }
 
 
-/* =========================================
-   HEADING
-========================================= */
+        .hero h1 {
 
-.hero h1 {
+            font-size: 54px;
 
-    font-size: 52px;
+            line-height: 1.1;
 
-    line-height: 1.1;
+            margin-bottom: 10px;
 
-    font-weight: 700;
+            font-weight: 700;
+        }
 
-    letter-spacing: -1px;
 
-    margin-bottom: 5px;
-}
+        .hero h1 span {
 
+            color: #3b82f6;
+        }
 
-.hero h2 {
 
-    font-size: 32px;
+        .hero-subtitle {
 
-    font-weight: 600;
+            font-size: 25px;
 
-    color: #3b82f6;
+            color: #d4e2f2;
 
-    margin-bottom: 25px;
-}
+            margin-bottom: 24px;
 
+            font-weight: 500;
+        }
 
-/* =========================================
-   DESCRIPTION
-========================================= */
 
-.description {
+        .hero-description {
 
-    max-width: 720px;
+            max-width: 750px;
 
-    margin: 0 auto 32px;
+            margin: 0 auto 35px;
 
-    color: #9db2ca;
+            color: #9db2ca;
 
-    font-size: 17px;
+            font-size: 17px;
 
-    line-height: 1.7;
-}
+            line-height: 1.8;
+        }
 
 
-/* =========================================
-   ENCRYPT BUTTON
-========================================= */
+        .hero-actions {
 
-.encrypt-btn {
+            display: flex;
 
-    display: inline-block;
+            justify-content: center;
 
-    text-decoration: none;
+            gap: 14px;
 
-    color: #ffffff;
+            flex-wrap: wrap;
+        }
 
-    background: #2563eb;
 
-    border: 1px solid #3474ef;
+        .primary-btn {
 
-    padding: 15px 32px;
+            padding: 14px 30px;
 
-    border-radius: 8px;
+            background: #2563eb;
 
-    font-size: 17px;
+            color: #ffffff;
 
-    font-weight: 700;
+            border: 1px solid #3474ef;
 
-    transition: 0.2s ease;
+            border-radius: 8px;
 
-    box-shadow:
-        0 8px 25px rgba(37, 99, 235, 0.20);
-}
+            font-size: 16px;
 
+            font-weight: 700;
 
-.encrypt-btn:hover {
+            transition: 0.2s ease;
+        }
 
-    background: #1d55ca;
 
-    transform: translateY(-2px);
+        .primary-btn:hover {
 
-    box-shadow:
-        0 12px 30px rgba(37, 99, 235, 0.28);
-}
+            background: #1d55ca;
 
+            transform: translateY(-2px);
+        }
 
-/* =========================================
-   FEATURES
-========================================= */
 
-.features {
+        .secondary-btn {
 
-    display: grid;
+            padding: 14px 30px;
 
-    grid-template-columns:
-        repeat(3, 1fr);
+            background: transparent;
 
-    gap: 18px;
+            color: #c7d8ed;
 
-    margin-top: 65px;
-}
+            border: 1px solid #31506f;
 
+            border-radius: 8px;
 
-.feature {
+            font-size: 16px;
 
-    background: #101e30;
+            font-weight: 600;
 
-    border: 1px solid #263f5b;
+            transition: 0.2s ease;
+        }
 
-    border-radius: 12px;
 
-    padding: 25px 20px;
+        .secondary-btn:hover {
 
-    text-align: left;
+            background: #122238;
 
-    transition: 0.2s ease;
-}
+            color: #ffffff;
+        }
 
 
-.feature:hover {
+        /* =====================================================
+           SECTION COMMON
+        ===================================================== */
 
-    border-color: #38658d;
+        .section {
 
-    transform: translateY(-2px);
-}
+            padding: 80px 25px;
+        }
 
 
-.feature-icon {
+        .section-container {
 
-    font-size: 23px;
+            max-width: 1100px;
 
-    margin-bottom: 14px;
-}
+            margin: auto;
+        }
 
 
-.feature h3 {
+        .section-heading {
 
-    font-size: 17px;
+            text-align: center;
 
-    margin-bottom: 8px;
-}
+            margin-bottom: 50px;
+        }
 
 
-.feature p {
+        .section-heading h2 {
 
-    color: #91a7bf;
+            font-size: 32px;
 
-    font-size: 14px;
+            margin-bottom: 12px;
+        }
 
-    line-height: 1.5;
-}
 
+        .section-heading p {
 
-/* =========================================
-   FOOTER
-========================================= */
+            color: #91a7bf;
 
-footer {
+            max-width: 650px;
 
-    text-align: center;
+            margin: auto;
 
-    padding: 18px;
+            font-size: 15px;
+        }
 
-    color: #647991;
 
-    font-size: 13px;
+        /* =====================================================
+           ABOUT
+        ===================================================== */
 
-    border-top: 1px solid #1d3047;
-}
+        .about-grid {
 
+            display: grid;
 
-/* =========================================
-   MOBILE
-========================================= */
+            grid-template-columns: 1fr 1fr;
 
-@media (max-width: 700px) {
+            gap: 25px;
+        }
 
-    .topbar {
 
-        padding: 0 20px;
+        .about-card {
 
-        height: 70px;
-    }
+            background: #101e30;
 
+            border: 1px solid #263f5b;
 
-    .brand {
+            border-radius: 14px;
 
-        font-size: 18px;
-    }
+            padding: 30px;
+        }
 
 
-    .brand-logo {
+        .about-card h3 {
 
-        width: 38px;
+            font-size: 21px;
 
-        height: 38px;
-    }
+            margin-bottom: 15px;
+        }
 
 
-    .nav-actions {
+        .about-card p {
 
-        gap: 6px;
-    }
+            color: #9db2ca;
 
+            font-size: 15px;
 
-    .nav-actions a {
+            line-height: 1.8;
+        }
 
-        padding: 8px 12px;
 
-        font-size: 13px;
-    }
+        .about-highlight {
 
+            border-left: 3px solid #2563eb;
 
-    .hero {
+            padding-left: 18px;
 
-        padding: 45px 20px;
-    }
+            margin-top: 20px;
 
+            color: #c4d5e8;
+        }
 
-    .hero h1 {
 
-        font-size: 38px;
-    }
+        /* =====================================================
+           FEATURES
+        ===================================================== */
 
+        .features-grid {
 
-    .hero h2 {
+            display: grid;
 
-        font-size: 25px;
-    }
+            grid-template-columns:
+                repeat(3, 1fr);
 
+            gap: 20px;
+        }
 
-    .description {
 
-        font-size: 15px;
-    }
+        .feature-card {
 
+            background: #101e30;
 
-    .features {
+            border: 1px solid #263f5b;
 
-        grid-template-columns: 1fr;
+            border-radius: 13px;
 
-        margin-top: 45px;
-    }
+            padding: 28px;
 
-}
-</style>
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+            transition: 0.2s ease;
+        }
+
+
+        .feature-card:hover {
+
+            transform: translateY(-4px);
+
+            border-color: #3b6289;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.20);
+        }
+
+
+        .feature-icon {
+
+            width: 48px;
+
+            height: 48px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #122942;
+
+            border-radius: 10px;
+
+            font-size: 22px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .feature-card h3 {
+
+            font-size: 18px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .feature-card p {
+
+            color: #91a7bf;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           SECURITY
+        ===================================================== */
+
+        .security-section {
+
+            background: #0b192a;
+
+            border-top: 1px solid #1c3149;
+
+            border-bottom: 1px solid #1c3149;
+        }
+
+
+        .security-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 20px;
+        }
+
+
+        .security-card {
+
+            background: #101e30;
+
+            border: 1px solid #263f5b;
+
+            border-radius: 12px;
+
+            padding: 25px;
+        }
+
+
+        .security-card h3 {
+
+            color: #ffffff;
+
+            font-size: 18px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .security-card p {
+
+            color: #91a7bf;
+
+            font-size: 14px;
+        }
+
+
+        .security-title {
+
+            color: #f5c542 !important;
+        }
+
+
+        /* =====================================================
+           WORKFLOW
+        ===================================================== */
+
+        .workflow {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 15px;
+
+            position: relative;
+        }
+
+
+        .step {
+
+            text-align: center;
+
+            padding: 25px 15px;
+
+            background: #101e30;
+
+            border: 1px solid #263f5b;
+
+            border-radius: 12px;
+        }
+
+
+        .step-number {
+
+            width: 42px;
+
+            height: 42px;
+
+            margin: 0 auto 15px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #2563eb;
+
+            border-radius: 50%;
+
+            font-weight: 700;
+
+            font-size: 17px;
+        }
+
+
+        .step h3 {
+
+            font-size: 16px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .step p {
+
+            color: #91a7bf;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =====================================================
+           CTA
+        ===================================================== */
+
+        .cta {
+
+            padding: 75px 25px;
+
+            text-align: center;
+        }
+
+
+        .cta-box {
+
+            max-width: 850px;
+
+            margin: auto;
+
+            padding: 55px 30px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #101e30,
+                    #0c1a2c
+                );
+
+            border: 1px solid #315477;
+
+            border-radius: 16px;
+        }
+
+
+        .cta-box h2 {
+
+            font-size: 31px;
+
+            margin-bottom: 14px;
+        }
+
+
+        .cta-box p {
+
+            color: #91a7bf;
+
+            max-width: 650px;
+
+            margin: 0 auto 25px;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        footer {
+
+            background: #0a1727;
+
+            border-top: 1px solid #263b55;
+
+            padding: 30px 25px;
+
+            text-align: center;
+        }
+
+
+        .footer-brand {
+
+            font-size: 18px;
+
+            font-weight: 700;
+
+            margin-bottom: 8px;
+        }
+
+
+        footer p {
+
+            color: #647991;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 850px) {
+
+            .navbar {
+
+                padding: 0 20px;
+            }
+
+
+            .hero h1 {
+
+                font-size: 42px;
+            }
+
+
+            .about-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .features-grid {
+
+                grid-template-columns: 1fr 1fr;
+            }
+
+
+            .security-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .workflow {
+
+                grid-template-columns: 1fr 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .navbar {
+
+                height: auto;
+
+                padding: 15px;
+
+                gap: 15px;
+
+                flex-direction: column;
+            }
+
+
+            .nav-right {
+
+                width: 100%;
+
+                justify-content: center;
+            }
+
+
+            .hero {
+
+                padding: 65px 20px;
+            }
+
+
+            .hero h1 {
+
+                font-size: 36px;
+            }
+
+
+            .hero-subtitle {
+
+                font-size: 21px;
+            }
+
+
+            .hero-description {
+
+                font-size: 15px;
+            }
+
+
+            .features-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .workflow {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .section {
+
+                padding: 60px 20px;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-<!-- ================= HEADER ================= -->
 
-<header class="topbar">
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<header class="navbar">
 
     <a href="{% url 'home' %}" class="brand">
 
@@ -504,13 +881,15 @@ footer {
     </a>
 
 
-    <div class="nav-actions">
+    <div class="nav-right">
 
-        <a href="{% url 'login' %}" class="login-btn">
+        <a href="{% url 'login' %}"
+           class="nav-btn login-btn">
             Login
         </a>
 
-        <a href="{% url 'register' %}" class="register-btn">
+        <a href="{% url 'register' %}"
+           class="nav-btn register-btn">
             Register
         </a>
 
@@ -519,109 +898,545 @@ footer {
 </header>
 
 
-<!-- ================= MAIN ================= -->
 
-<main class="hero">
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
 
     <div class="hero-content">
 
-        <div class="hero-logo">
+        <div class="hero-icon">
             🔐
         </div>
 
 
         <h1>
-            Secure Your Files
+            Secure Your Files With
+            <span>SecureCrypt</span>
         </h1>
 
-        <h2>
-            With SecureCrypt
-        </h2>
+
+        <div class="hero-subtitle">
+            Secure File Encryption & Protection
+        </div>
 
 
-        <p class="description">
+        <p class="hero-description">
 
-            SecureCrypt is a secure file encryption platform designed
-            to protect your files using encryption, controlled access,
-            security monitoring and secure file management.
+            SecureCrypt is a secure file protection platform
+            designed to help users encrypt, manage and decrypt
+            sensitive files while providing controlled access
+            and security monitoring.
 
         </p>
 
 
-        <a href="{% url 'login' %}" class="encrypt-btn">
-            🔒 Encrypt a File
-        </a>
+        <div class="hero-actions">
+
+            <a href="{% url 'login' %}"
+               class="primary-btn">
+
+                🔒 Encrypt a File
+
+            </a>
 
 
-        <!-- ================= FEATURES ================= -->
+            <a href="#features"
+               class="secondary-btn">
 
-        <div class="features">
+                Explore Features
 
-            <div class="feature">
+            </a>
 
-                <div class="feature-icon">
-                    🔐
-                </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ABOUT
+===================================================== -->
+
+<section class="section">
+
+    <div class="section-container">
+
+        <div class="section-heading">
+
+            <h2>
+                What is SecureCrypt?
+            </h2>
+
+            <p>
+                A secure platform for protecting sensitive
+                files and monitoring important security events.
+            </p>
+
+        </div>
+
+
+        <div class="about-grid">
+
+
+            <div class="about-card">
 
                 <h3>
-                    Encryption
+                    🔐 Secure File Protection
                 </h3>
 
                 <p>
-                    Protect sensitive files with secure encryption.
+
+                    SecureCrypt allows users to protect their
+                    files using encryption before storing or
+                    sharing them.
+
+                </p>
+
+                <div class="about-highlight">
+
+                    Your encrypted files remain protected
+                    until an authorized user provides the
+                    required access information.
+
+                </div>
+
+            </div>
+
+
+
+            <div class="about-card">
+
+                <h3>
+                    🛡️ Security-Focused Design
+                </h3>
+
+                <p>
+
+                    The system combines authentication,
+                    authorization, encryption, ownership
+                    verification and security logging to
+                    provide multiple layers of protection.
+
+                </p>
+
+                <div class="about-highlight">
+
+                    Security events can be monitored through
+                    the application's security logs.
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FEATURES
+===================================================== -->
+
+<section class="section" id="features">
+
+    <div class="section-container">
+
+        <div class="section-heading">
+
+            <h2>
+                Core Features
+            </h2>
+
+            <p>
+                SecureCrypt provides multiple security
+                mechanisms throughout the file lifecycle.
+            </p>
+
+        </div>
+
+
+        <div class="features-grid">
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🔒
+                </div>
+
+                <h3>
+                    File Encryption
+                </h3>
+
+                <p>
+                    Encrypt sensitive files before they are
+                    stored or accessed.
                 </p>
 
             </div>
 
 
-            <div class="feature">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🔓
+                </div>
+
+                <h3>
+                    Secure Decryption
+                </h3>
+
+                <p>
+                    Decryption requires the appropriate
+                    authorization and required credentials.
+                </p>
+
+            </div>
+
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    👤
+                </div>
+
+                <h3>
+                    User Authentication
+                </h3>
+
+                <p>
+                    Registered users authenticate before
+                    accessing protected application features.
+                </p>
+
+            </div>
+
+
+
+            <div class="feature-card">
 
                 <div class="feature-icon">
                     🛡️
                 </div>
 
                 <h3>
-                    Access Control
+                    Ownership Protection
                 </h3>
 
                 <p>
-                    Only authorized users can access protected files.
+                    The system verifies file ownership before
+                    allowing protected file operations.
                 </p>
 
             </div>
 
 
-            <div class="feature">
+
+            <div class="feature-card">
 
                 <div class="feature-icon">
                     📊
                 </div>
 
                 <h3>
-                    Security Monitoring
+                    Security Logs
                 </h3>
 
                 <p>
-                    Monitor important security events and activity.
+                    Important security events are recorded
+                    and available for monitoring.
                 </p>
 
             </div>
+
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    📧
+                </div>
+
+                <h3>
+                    Security Notifications
+                </h3>
+
+                <p>
+                    Important account and security events can
+                    trigger email notifications.
+                </p>
+
+            </div>
+
 
         </div>
 
     </div>
 
-</main>
+</section>
 
 
-<!-- ================= FOOTER ================= -->
+
+<!-- =====================================================
+     SECURITY
+===================================================== -->
+
+<section class="section security-section">
+
+    <div class="section-container">
+
+        <div class="section-heading">
+
+            <h2>
+                Security Layers
+            </h2>
+
+            <p>
+                SecureCrypt is designed with multiple layers
+                instead of depending on a single security mechanism.
+            </p>
+
+        </div>
+
+
+        <div class="security-grid">
+
+
+            <div class="security-card">
+
+                <h3>
+                    🔐 Authentication
+                </h3>
+
+                <p>
+                    Users must authenticate before accessing
+                    protected functionality.
+                </p>
+
+            </div>
+
+
+
+            <div class="security-card">
+
+                <h3>
+                    🛡️ Authorization
+                </h3>
+
+                <p>
+                    Administrative operations and protected
+                    resources are restricted to authorized users.
+                </p>
+
+            </div>
+
+
+
+            <div class="security-card">
+
+                <h3>
+                    🔑 Password Protection
+                </h3>
+
+                <p>
+                    Password-protected operations require the
+                    correct credentials before proceeding.
+                </p>
+
+            </div>
+
+
+
+            <div class="security-card">
+
+                <h3 class="security-title">
+                    ⚠️ Suspicious Activity Detection
+                </h3>
+
+                <p>
+                    Suspicious file access or decryption
+                    attempts can be recorded as security events.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     HOW IT WORKS
+===================================================== -->
+
+<section class="section">
+
+    <div class="section-container">
+
+        <div class="section-heading">
+
+            <h2>
+                How SecureCrypt Works
+            </h2>
+
+            <p>
+                A simple workflow for protecting and accessing files.
+            </p>
+
+        </div>
+
+
+        <div class="workflow">
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    1
+                </div>
+
+                <h3>
+                    Register
+                </h3>
+
+                <p>
+                    Create a SecureCrypt account.
+                </p>
+
+            </div>
+
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    2
+                </div>
+
+                <h3>
+                    Authenticate
+                </h3>
+
+                <p>
+                    Log in to access protected features.
+                </p>
+
+            </div>
+
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    3
+                </div>
+
+                <h3>
+                    Encrypt
+                </h3>
+
+                <p>
+                    Protect your file using encryption.
+                </p>
+
+            </div>
+
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    4
+                </div>
+
+                <h3>
+                    Secure Access
+                </h3>
+
+                <p>
+                    Authorized users can decrypt protected files.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CTA
+===================================================== -->
+
+<section class="cta">
+
+    <div class="cta-box">
+
+        <h2>
+            Ready to Protect Your Files?
+        </h2>
+
+        <p>
+
+            Start using SecureCrypt to securely encrypt
+            and manage your sensitive files.
+
+        </p>
+
+
+        <a href="{% url 'login' %}"
+           class="primary-btn">
+
+            🔒 Get Started
+
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
 <footer>
 
-    © 2026 SecureCrypt
+    <div class="footer-brand">
+        🔐 SecureCrypt
+    </div>
+
+    <p>
+        Secure File Encryption & Protection
+    </p>
+
+    <p>
+        © 2026 SecureCrypt. All rights reserved.
+    </p>
 
 </footer>
 
 
 </body>
+
 </html>
