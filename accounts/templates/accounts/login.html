@@ -266,7 +266,30 @@ input {
         box-shadow 0.25s ease,
         background 0.25s ease;
 }
+.back-home {
+    display: inline-block;
+    margin-bottom: 20px;
 
+    padding: 9px 16px;
+
+    color: #9db2ca;
+    background: transparent;
+
+    border: 1px solid #31506f;
+    border-radius: 8px;
+
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: 0.2s ease;
+}
+
+.back-home:hover {
+    color: #ffffff;
+    background: #162941;
+    border-color: #46709b;
+}
 input::placeholder {
     color: #64748b;
 }
@@ -612,7 +635,9 @@ input:focus {
             >
                 🔐 Login Securely
             </button>
-
+        <a href="{% url 'home' %}" class="back-home">
+    ← Back to Home
+</a>
         </form>
 
 
