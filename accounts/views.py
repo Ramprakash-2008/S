@@ -91,8 +91,11 @@ def admin_required(view_func):
         return view_func(request, *args, **kwargs)
 
     return wrapper
+def home_view(request):
+    return render(request, "accounts/home.html")
+
 @login_required
-@login_required
+
 def admin_security_logs_view(request):
 
     try:
